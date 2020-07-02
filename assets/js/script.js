@@ -1,5 +1,5 @@
-var startingLocation = "DFW";
-var endingLocation = "BWI";
+var startingLocation = "BWI";
+var endingLocation = "DFW";
 
 var myHeaders = new Headers();
 myHeaders.append("X-Access-Token", "a9027f3b-807c-43e4-b30c-2e9f97ed1467");
@@ -9,9 +9,6 @@ var requestOptions = {
   headers: myHeaders,
   redirect: 'follow'
 };
-
-console.log(requestOptions);
-console.log(myHeaders);
 
 fetch("https://api.traveladviceapi.com/search/" + startingLocation + ":" + endingLocation, requestOptions)
 .then(function(response) {
@@ -23,7 +20,9 @@ fetch("https://api.traveladviceapi.com/search/" + startingLocation + ":" + endin
     };
 });
 
-fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/SFO-sky/ORD-sky/2019-09-01?inboundpartialdate=2019-12-01", {
+var outboundDate = "2020-07-04"
+
+fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/" + startingLocation + "-sky/" + endingLocation + "-sky/" + outboundDate, {
 	"method": "GET",
 	"headers": {
 		"x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
