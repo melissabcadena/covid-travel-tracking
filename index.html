@@ -3,9 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample COVID Travel Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Covid Tracking CSS Frame</title>
+    
 </head>
 <body>
+    <nav>
+        <div class="nav-wrapper blue darken-4">
+          <a href="#" class="brand-logo center ">COVID Travel Tracker</a>
+        </div>
+      </nav>
+    <main class="row">
+        <div class="row col s12 l3" id='search-bar'>
+            <div class="input-field col l12" id="from-city">
+                <input placeholder="City" id="from-city" type="text" class="validate">
+                <label for="from-city">From:</label>
+            </div>
+            <div class="input-field col l12" id="to-city">
+                <input placeholder="City" id="to-city" type="text" class="validate">
+                <label for="to-city">To:</label>
+            </div>
+            <div class="col l12">
+                <input type="text" id="outbound-date" placeholder="MM/DD/YYYY" class="datepicker col s12 l6">
+                <label for="outbound-date">Outbound:</label>
+            </div>
+            <div class="col l12">
+                <input type="text" id="inbound-date" placeholder="MM/DD/YYYY" class="datepicker col s12 l6">
+                <label for="inbound-date">Inbound:</label>
+            </div>
+            <a class="waves-effect waves-light blue lighten-1 btn-large col l12">Submit<i class="material-icons right">send</i></a>
+        </div>
+        <div class="col l9" id="covid-data">
+            <div class="card blue darken-4">
+                <div class="card-content white-text">
+                <span class="card-title">City Name<span id='date'> 07/02/2020</span></span>
+                <p>Total Cases: </p>
+                <p>New Cases: </p>
+                <p>Total Deaths: </p>
+                <p>Restriction Level: </p>               
+                </div>
+                <div class="card-action">
+                    <p class="white-text"><a class="btn-floating blue lighten-1 pulse"><i class="material-icons">add</i></a>
+                        Add to Saved Trips</a>
+                </div>
+            </div>
+        </div>
+        <div class="col l9 right" id="flight-routes">
+            <div class="card blue darken-4">
+                <div class="card-content white-text">
+                <span class="card-title">Flight Routes</span>
+                <p></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
+    
