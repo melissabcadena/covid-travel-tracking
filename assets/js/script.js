@@ -66,48 +66,38 @@ var getTravelQuotes = function () {
             if (response.ok) {
                 response.json().then(function (data) {
                     console.log(data);
-                    console.log(data.Quotes[0].MinPrice);
-                    console.log(data.Carriers[0].Name);
+                    for (var i = 0; i < data.Carriers.length; i++) {
+                        for (var j = 0; j < data.Quotes.length; j++) {
+                            if (data.Carriers[i].CarrierId === data.Quotes[j].OutboundLeg.CarrierIds[0]) {
+                                console.log(data.Carriers[i].Name + " has a minimum price of $" + data.Quotes[j].MinPrice);
+                            }
+                        }
+                    }
                 });
             };
         });
 };
 
 // var getUrlQuotes = function () {
-//     fetch("https://tripadvisor1.p.rapidapi.com/flights/create-session?currency=USD&ta=1&c=0&d1=CNX&o1=DMK&dd1=%3Crequired%3E", {
-//         "method": "GET",
-//         "headers": {
-//             "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-//             "x-rapidapi-key": "84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7"
-//         }
-//     })
-//         .then(response => {
-//             console.log(response);
-//         })
-//         .catch(err => {
-//             console.log(err);
+
+//     var myHeaders = new Headers();
+//     myHeaders.append("x-rapidapi-key", "84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7");
+
+//     var requestOptions = {
+//         method: 'GET',
+//         headers: myHeaders,
+//         redirect: 'follow'
+//     };
+
+//     fetch("https://tripadvisor1.p.rapidapi.com/flights/create-session?currency=USD&ta=1&c=0&d1=" + endingLocation + "&o1=" + startingLocation + "&dd1=" + outboundDate, requestOptions)
+//         .then(function (response) {
+//             if (response.ok) {
+//                 response.json().then(function (data) {
+//                     console.log(data);
+//                 });
+//             };
 //         });
-// };
-
-    //     var myHeaders = new Headers();
-    //     myHeaders.append("x-rapidapi-host", "tripadvisor1.p.rapidapi.com","x-rapidapi-key", "84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7");
-
-    //     var requestOptions = {
-    //         method: 'GET',
-    //         headers: myHeaders,
-    //         redirect: 'follow'
-    //     };
-
-    //     fetch("https://tripadvisor1.p.rapidapi.com/?rapidapi-key=84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7/flights/create-session?currency=USD&ta=1&c=0&d1=" + endingLocation + "&o1=" + startingLocation + "&dd1=" + outboundDate, requestOptions)
-
-    //             .then(function (response) {
-    //                 if (response.ok) {
-    //                     response.json().then(function (data) {
-    //                         console.log(data);
-    //                     });
-    //                 };
-    //             });
-    // };
+// }
 
 getTravelAdvice();
 getTravelQuotes();
