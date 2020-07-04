@@ -32,23 +32,15 @@ var getTravelAdvice = function () {
                     // Console for the New Cases
                     var newCases = data.Trips[0].LatestStats.new_cases;
                     console.log(newCases + " New Cases");
-                    // Console for New Cases as a % of Total Population
-                    // console.log((newCases/totalPopulation) * 100 + "%");
                     // Console for the Total Cases
                     var totalCases = data.Trips[0].LatestStats.total_cases;
                     console.log(totalCases + " Total Cases");
-                    // Console for Total Cases as a % of Total Population
-                    // console.log((totalCases/totalPopulation) * 100 + "%");
                     // Console for the New Deaths
                     var newDeaths = data.Trips[0].LatestStats.new_deaths;
                     console.log(newDeaths + " New Deaths");
-                    // Console for New Deaths as a % of Total Population
-                    //  console.log((newDeaths/totalPopulation) * 100 + "%");
                     // Console for the Total Deaths
                     var totalDeaths = data.Trips[0].LatestStats.total_deaths;
                     console.log(totalDeaths + " Total Deaths");
-                    // Console for Total Deaths as a % of Total Population
-                    // console.log((totalDeaths/totalPopulation) * 100 + "%");
                     // Console for the Restriction Level
                     console.log(data.Trips[0].Advice.News.Recommendation);
                     // Console for Notes for Restriction Level
