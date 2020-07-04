@@ -30,7 +30,7 @@ var getTravelAdvice = function () {
                     // var totalPopulation = data.Trips[0].LatestStats.population;
                     // console.log(totalPopulation);
                     // // Console for the New Cases
-                    var newCases = $("<p>").text(data.Trips[0].LatestStats.new_cases + " New Cases");
+                    // var newCases = $("<p>").addClass("new-button m-2 p-1").text(data.Trips[0].LatestStats.new_cases + " New Cases");
                     // console.log(newCases + " New Cases");
                     // // Console for the Total Cases
                     // var totalCases = data.Trips[0].LatestStats.total_cases;
@@ -46,10 +46,26 @@ var getTravelAdvice = function () {
                     // // Console for Notes for Restriction Level
                     // console.log(data.Trips[0].Advice.Notes[0].Note);
 
-
+                    addCountryData(data);
                 });
             };
         });
+}
+
+function addCountryData (data) {
+
+    var newDiv = $("<div>").addClass("card-content white-text");
+    var cityTitle = $("<span>").addClass("card-title").text(data.Trips[0].To + " " + new Date(data.Trips[0].Date).toLocaleDateString('en-US'));
+
+    var newCases = $("<p>").text("New Cases: " + data.Trips[0].LatestStats.new_cases);
+    var totalCases = $("<p>").text("Total Cases: " + data.Trips[0].LatestStats.total_cases);
+    var newDeaths = $("<p>").text("New Deaths: " + data.Trips[0].LatestStats.new_deaths);
+    var totalDeaths = $("<p>").text("Total Deaths: " + data.Trips[0].LatestStats.total_deaths);
+    var restrictionLevel = $("<p>").text("Restriction Level: " + data.Trips[0].Advice.News.Recommendation);
+    var restrictionNotes = $("<p>").text("Notes: " + data.Trips[0].Advice.Notes[0].Note);
+    var lastUpdated = $("<p>").text("Last Updated: " + new Date(data.Trips[0].LatestStats.date).toLocaleDateString('en-US'));
+    
+    $("#covid-data").html(newDiv.append(cityTitle).append(newCases, totalCases, newDeaths, totalDeaths, restrictionLevel, restrictionNotes, lastUpdated));
 }
 
 var getTravelQuotes = function () {
