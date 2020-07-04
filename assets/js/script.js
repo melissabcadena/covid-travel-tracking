@@ -5,6 +5,13 @@ var endingLocation = "LHR";
 var outboundDate = "2020-07-06";
 var inboundDate = "2020-07-15";
 
+// Display intro modal on load
+$(document).ready(function(){
+    $('#modal').modal();
+    $('#modal').modal('open'); 
+});
+
+
 var getTravelAdvice = function () {
     var myHeaders = new Headers();
     myHeaders.append("X-Access-Token", "a9027f3b-807c-43e4-b30c-2e9f97ed1467");
