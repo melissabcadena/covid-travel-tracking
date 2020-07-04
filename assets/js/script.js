@@ -27,24 +27,26 @@ var getTravelAdvice = function () {
             if (response.ok) {
                 response.json().then(function (data) {
                     console.log(data);
-                    var totalPopulation = data.Trips[0].LatestStats.population;
-                    console.log(totalPopulation);
-                    // Console for the New Cases
-                    var newCases = data.Trips[0].LatestStats.new_cases;
-                    console.log(newCases + " New Cases");
-                    // Console for the Total Cases
-                    var totalCases = data.Trips[0].LatestStats.total_cases;
-                    console.log(totalCases + " Total Cases");
-                    // Console for the New Deaths
-                    var newDeaths = data.Trips[0].LatestStats.new_deaths;
-                    console.log(newDeaths + " New Deaths");
-                    // Console for the Total Deaths
-                    var totalDeaths = data.Trips[0].LatestStats.total_deaths;
-                    console.log(totalDeaths + " Total Deaths");
-                    // Console for the Restriction Level
-                    console.log(data.Trips[0].Advice.News.Recommendation);
-                    // Console for Notes for Restriction Level
-                    console.log(data.Trips[0].Advice.Notes[0].Note);
+                    // var totalPopulation = data.Trips[0].LatestStats.population;
+                    // console.log(totalPopulation);
+                    // // Console for the New Cases
+                    var newCases = $("<p>").text(data.Trips[0].LatestStats.new_cases + " New Cases");
+                    // console.log(newCases + " New Cases");
+                    // // Console for the Total Cases
+                    // var totalCases = data.Trips[0].LatestStats.total_cases;
+                    // console.log(totalCases + " Total Cases");
+                    // // Console for the New Deaths
+                    // var newDeaths = data.Trips[0].LatestStats.new_deaths;
+                    // console.log(newDeaths + " New Deaths");
+                    // // Console for the Total Deaths
+                    // var totalDeaths = data.Trips[0].LatestStats.total_deaths;
+                    // console.log(totalDeaths + " Total Deaths");
+                    // // Console for the Restriction Level
+                    // console.log(data.Trips[0].Advice.News.Recommendation);
+                    // // Console for Notes for Restriction Level
+                    // console.log(data.Trips[0].Advice.Notes[0].Note);
+
+
                 });
             };
         });
