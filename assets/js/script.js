@@ -1,3 +1,8 @@
+$(document).ready(function(){
+    $('.parallax').parallax();
+  });
+
+
 // Starting and Ending Locations should be Airport Codes
 var startingLocation = "BWI";
 var endingLocation = "LHR";
