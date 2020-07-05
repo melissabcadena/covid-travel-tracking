@@ -3,6 +3,15 @@ $(document).ready(function(){
   });
 
 
+// datepicker initialize 
+$(document).ready(function() {
+    $(".datepicker").datepicker({
+      autoClose: true,
+      minDate: new Date(),
+      format: "yyyy-mm-dd"    
+    });
+  });
+
 // Starting and Ending Locations should be Airport Codes
 var startingLocation = "";
 var endingLocation = "";
@@ -144,6 +153,18 @@ var getTravelQuotes = function () {
             M.toast({html: 'ERROR: Unable to connect and gather flight routes'})
         })
 };
+
+// add trip to saved trips sidebar on click
+$("#add-trip-btn").on("click", function() {
+    var savedTripLi = $("<li>")
+    var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
+    var fixedInboundDate = new Date(inboundDate).toISOString().split('T')[0];
+
+    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + "-" + endingLocation + " " +  fixedOutboundDate + "-" + fixedInboundDate);
+    
+    savedTripLi.append(savedTripLink);
+    $(".saved-trips-list").append(savedTripLi);
+})
 
 // var getUrlQuotes = function () {
 
