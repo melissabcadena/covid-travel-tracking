@@ -33,9 +33,10 @@ $("#submit-btn").on("click", function(event) {
         M.toast({html: 'Inbound date must be after outbound date'})
     }
     if( (startingLocation != "") &
-        (endingLocation != "")&
-        (outboundDate != "")&
-        (inboundDate != "")) {
+        (endingLocation != "") &
+        (outboundDate != "") &
+        (inboundDate != "") &
+        (inboundDate > outboundDate)) {
             getTravelAdvice();
             getTravelQuotes();
     }
@@ -81,8 +82,11 @@ var getTravelAdvice = function () {
 
                     addCountryData(data);
                 });
-            };
-        });
+            }
+        })
+        .catch(function() {
+            M.toast({html: 'ERROR: Unable to connect and gather COVID-19 data'})
+        })
 }
 
 // load fetched data to page
@@ -130,7 +134,10 @@ var getTravelQuotes = function () {
                     }
                 });
             };
-        });
+        })
+        .catch(function() {
+            M.toast({html: 'ERROR: Unable to connect and gather flight routes'})
+        })
 };
 
 // var getUrlQuotes = function () {
