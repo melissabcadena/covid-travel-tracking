@@ -1,13 +1,60 @@
+<<<<<<< HEAD
 .hide {
     display: none
 }
+=======
+>>>>>>> e76214475a8886736cc6705a493db1efc97b73fb
 .parallax-container {
     height: 300px;
   }
 
  .plane {
+<<<<<<< HEAD
      height: 400px;
  } 
 
 
   
+=======
+     height: 350px;
+ } 
+
+ .covidimg {
+    height: 250px;
+} 
+
+ :root{
+    --blue0: rgba(78, 141, 166, 0.3); 
+    --blue1: #4E8DA6;
+    --blue2: #B4CED9;
+    --blue3: #163840;
+    --blue4: #6BB0BF;
+    --red: #F21905;   
+}
+
+.blue0 {
+    background-color: var(--blue0);
+}
+
+.blue1 {
+    background-color: var(--blue1);
+}
+
+.blue2 {
+    background-color: var(--blue2);
+}
+
+.blue3 {
+    background-color: var(--blue3);
+}
+
+.blue4 {
+    background-color: var(--blue4);
+}
+
+.red {
+    background-color: var(--red);
+}
+
+  
+>>>>>>> e76214475a8886736cc6705a493db1efc97b73fb

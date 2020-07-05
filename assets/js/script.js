@@ -12,6 +12,11 @@ $(document).ready(function() {
     });
   });
 
+$(document).ready(function(){
+    $('.collapsible').collapsible();
+  });
+
+
 // Starting and Ending Locations should be Airport Codes
 var startingLocation = "";
 var endingLocation = "";
