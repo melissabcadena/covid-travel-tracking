@@ -1,27 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Covid Travel Tracker</title>
-    
 </head>
+
 <body>
+    <!--Intro Modal-->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h4>Welcome to COVID Travel Tracker!</h4>
+            <p>Please note: If you have experienced any of the below symptoms, or have been exposed to someone who has tested positive for COVID-19, the CDC recommends staying home for 14 days. Please reconsider traveling during this time. </p>
+            <ul>
+                <li>Fever or chills</li>
+                <li>Coughing</li>
+                <li>Shortness of breath or difficulty breathing</li>
+                <li>Fatigue</li>
+                <li>Coughing</li>
+            </ul>
+            <p>If you believe you may have been exposed to COVID-19, please contact your healthcare provider.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Continue</a>
+        </div>
+    </div>
+
+    <!--Header/Navbar-->
     <nav>
         <div class="nav-wrapper blue darken-4">
-          <a href="#" class="brand-logo center ">COVID Travel Tracker</a>
+            <a href="#" class="brand-logo center ">COVID Travel Tracker</a>
         </div>
-      </nav>
+    </nav>
+
+    <!-- Search Bar -->
     <main class="row">
         <div class="row col s12 l3" id='search-bar'>
             <div class="input-field col l12" id="from-city">
-                <input placeholder="City" id="from-city" type="text" class="validate">
+                <input placeholder="City" id="from-city" type="text" class="validate from-city">
                 <label for="from-city">From:</label>
             </div>
             <div class="input-field col l12" id="to-city">
-                <input placeholder="City" id="to-city" type="text" class="validate">
+                <input placeholder="City" id="to-city" type="text" class="validate to-city">
                 <label for="to-city">To:</label>
             </div>
             <div class="input-field col l12">
@@ -32,47 +55,50 @@
                 <input type="date" id="inbound-date" placeholder="MM/DD/YYYY" class="datepicker col s12">
                 <label for="inbound-date">Inbound:</label>
             </div>
-            <a class="waves-effect waves-light blue lighten-1 btn-large col l12">Submit<i class="material-icons right">send</i></a>
+            <a id="submit-btn" class="waves-effect waves-light blue lighten-1 btn-large col l12">Submit<i
+                    class="material-icons right">send</i></a>
+
+            <!-- Saved Trips Card -->
             <div class="col l12" id="saved-trips">
                 <div class="card blue darken-4">
                     <div class="card-content white-text">
-                    <span class="card-title">Saved Trips</span>
-                    <table>
-                        <tbody>
-                          <ul>
-                            <li><a href="#">DAL-AUS 12/21/20-12/25/20</a></li>
-                          </ul>
-                        </tbody>
-                    </table>
+                        <span class="card-title">Saved Trips</span>
+                        <table>
+                            <tbody>
+                                <ul>
+                                    <li><a href="#">DAL-AUS 12/21/20-12/25/20</a></li>
+                                </ul>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col l9" id="covid-data">
-            <div class="card blue darken-4">
-                <div class="card-content white-text">
-                <span class="card-title">City Name<span id='date'> 07/02/2020</span></span>
-                <p>Total Cases: </p>
-                <p>New Cases: </p>
-                <p>Total Deaths: </p>
-                <p>Restriction Level: </p>               
-                </div>
-                <div class="card-action">
-                    <p class="white-text"><a class="btn-floating blue lighten-1"><i class="material-icons">add</i></a>
-                        Add to Saved Trips</a>
+
+        <!-- Main Cards -->
+        <div class="hide">
+            <div class="col l9">
+                <div class="card blue darken-4" id="covid-data">
                 </div>
             </div>
-        </div>
-        <div class="col l9 right" id="flight-routes">
-            <div class="card blue darken-4">
-                <div class="card-content white-text">
-                <span class="card-title">Flight Routes</span>
-                <p></p>
+            <div class="col l9 right" id="flight-routes">
+                <div class="card blue darken-4">
+                    <div class="card-content white-text">
+                        <span class="card-title">Flight Routes</span>
+                        <p></p>
+                    </div>
+                    <div class="card-action">
+                        <p class="white-text"><a class="btn-floating blue lighten-1 pulse"><i class="material-icons">add</i></a>
+                            Add to Saved Trips</a>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
+
 </html>

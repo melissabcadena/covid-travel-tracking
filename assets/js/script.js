@@ -1,10 +1,52 @@
 // Starting and Ending Locations should be Airport Codes
-var startingLocation = "BWI";
-var endingLocation = "LHR";
-var outboundDate = "2020-07-05";
-var inboundDate = "2020-07-10";
+var startingLocation = "";
+var endingLocation = "";
+// Dates should be in the format below from the calendar input
+var outboundDate = "";
+var inboundDate = "";
 
-var getTravelRestrictions = function () {
+// Display intro modal on load
+$(document).ready(function(){
+    $('#modal').modal();
+    $('#modal').modal('open'); 
+});
+
+// get User Input when search is submitted
+
+$("#submit-btn").on("click", function(event) {
+    event.preventDefault();
+
+    // save user inputs to variables
+    startingLocation = $(".from-city").val().trim()
+    endingLocation = $(".to-city").val().trim()
+    outboundDate = $("#outbound-date").val().trim()
+    inboundDate = $("#inbound-date").val().trim()
+
+    // check for empty inputs
+    if(startingLocation === "" || endingLocation === "") {
+        M.toast({html: 'Please select your locations'})
+    }
+    if(outboundDate === "" || inboundDate === "") {
+        M.toast({html: 'Please select your dates'})
+    }
+    if(inboundDate < outboundDate){
+        M.toast({html: 'Inbound date must be after outbound date'})
+    }
+    if( (startingLocation != "") &
+        (endingLocation != "") &
+        (outboundDate != "") &
+        (inboundDate != "") &
+        (inboundDate > outboundDate)) {
+            getTravelAdvice();
+            getTravelQuotes();
+    }
+
+})
+
+
+// fetch call for COVID Data
+var getTravelAdvice = function () {
+
     var myHeaders = new Headers();
     myHeaders.append("X-Access-Token", "a9027f3b-807c-43e4-b30c-2e9f97ed1467");
 
@@ -13,19 +55,62 @@ var getTravelRestrictions = function () {
         headers: myHeaders,
         redirect: 'follow'
     };
-
+    // adds user inputs into fetch call
     fetch("https://api.traveladviceapi.com/search/" + startingLocation + ":" + endingLocation, requestOptions)
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
                     console.log(data);
-                    console.log(data.trips[0].advice.news.recommendation);
+                    // var totalPopulation = data.Trips[0].LatestStats.population;
+                    // console.log(totalPopulation);
+                    // // Console for the New Cases
+                    // var newCases = $("<p>").addClass("new-button m-2 p-1").text(data.Trips[0].LatestStats.new_cases + " New Cases");
+                    // console.log(newCases + " New Cases");
+                    // // Console for the Total Cases
+                    // var totalCases = data.Trips[0].LatestStats.total_cases;
+                    // console.log(totalCases + " Total Cases");
+                    // // Console for the New Deaths
+                    // var newDeaths = data.Trips[0].LatestStats.new_deaths;
+                    // console.log(newDeaths + " New Deaths");
+                    // // Console for the Total Deaths
+                    // var totalDeaths = data.Trips[0].LatestStats.total_deaths;
+                    // console.log(totalDeaths + " Total Deaths");
+                    // // Console for the Restriction Level
+                    // console.log(data.Trips[0].Advice.News.Recommendation);
+                    // // Console for Notes for Restriction Level
+                    // console.log(data.Trips[0].Advice.Notes[0].Note);
+
+                    addCountryData(data);
                 });
-            };
-        });
+            }
+        })
+        .catch(function() {
+            M.toast({html: 'ERROR: Unable to connect and gather COVID-19 data'})
+        })
 }
 
-var getTravelRoutes = function () {
+// load fetched data to page
+function addCountryData (data) {
+
+    // stop hiding data cards on right side of page
+    $("div").removeClass("hide");
+
+    var newDiv = $("<div>").addClass("card-content white-text");
+    var cityTitle = $("<span>").addClass("card-title").text(data.Trips[0].To + " " + new Date(data.Trips[0].Date).toLocaleDateString('en-US'));
+
+    var newCases = $("<p>").text("New Cases: " + data.Trips[0].LatestStats.new_cases);
+    var totalCases = $("<p>").text("Total Cases: " + data.Trips[0].LatestStats.total_cases);
+    var newDeaths = $("<p>").text("New Deaths: " + data.Trips[0].LatestStats.new_deaths);
+    var totalDeaths = $("<p>").text("Total Deaths: " + data.Trips[0].LatestStats.total_deaths);
+    var restrictionLevel = $("<p>").text("Restriction Level: " + data.Trips[0].Advice.News.Recommendation);
+    var restrictionNotes = $("<p>").text("Notes: " + data.Trips[0].Advice.Notes[0].Note);
+    var lastUpdated = $("<p>").text("Last Updated: " + new Date(data.Trips[0].LatestStats.date).toLocaleDateString('en-US'));
+    
+    $("#covid-data").html(newDiv.append(cityTitle).append(newCases, totalCases, newDeaths, totalDeaths, restrictionLevel, restrictionNotes, lastUpdated));
+}
+
+// fetch call for flight routes
+var getTravelQuotes = function () {
     var myHeaders = new Headers();
     myHeaders.append("x-rapidapi-key", "84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7");
 
@@ -40,33 +125,23 @@ var getTravelRoutes = function () {
             if (response.ok) {
                 response.json().then(function (data) {
                     console.log(data);
-                    console.log(data.Quotes[0].MinPrice);
-                    console.log(data.Carriers[0].Name);
+                    for (var i = 0; i < data.Carriers.length; i++) {
+                        for (var j = 0; j < data.Quotes.length; j++) {
+                            if (data.Carriers[i].CarrierId === data.Quotes[j].OutboundLeg.CarrierIds[0]) {
+                                console.log(data.Carriers[i].Name + " has a minimum price of $" + data.Quotes[j].MinPrice);
+                            }
+                        }
+                    }
                 });
             };
-        });
+        })
+        .catch(function() {
+            M.toast({html: 'ERROR: Unable to connect and gather flight routes'})
+        })
 };
 
-var getAirportCodes = function () {
-    var myHeaders = new Headers();
-    myHeaders.append("x-rapidapi-key", "84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7");
+// var getUrlQuotes = function () {
 
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
-
-    fetch("https://tripadvisor1.p.rapidapi.com/flights/create-session?currency=USD&d1=" + startingLocation + "&o1=" + endingLocation + "&dd1=" + outboundDate, requestOptions)
-        .then(function (response) {
-            if (response.ok) {
-                response.json().then(function (data) {
-                    console.log(data);
-                });
-            };
-        });
-}
-// var getTravelQuotes = function () {
 //     var myHeaders = new Headers();
 //     myHeaders.append("x-rapidapi-key", "84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7");
 
@@ -76,7 +151,7 @@ var getAirportCodes = function () {
 //         redirect: 'follow'
 //     };
 
-//     fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/US/USD/en-US/" + startingLocation + "-sky/" + endingLocation + "-sky/" + outboundDate + "?inboundpartialdate=" + inboundDate, requestOptions)
+//     fetch("https://tripadvisor1.p.rapidapi.com/flights/create-session?currency=USD&ta=1&c=0&d1=" + endingLocation + "&o1=" + startingLocation + "&dd1=" + outboundDate, requestOptions)
 //         .then(function (response) {
 //             if (response.ok) {
 //                 response.json().then(function (data) {
@@ -84,28 +159,9 @@ var getAirportCodes = function () {
 //                 });
 //             };
 //         });
-// };
-
-getTravelRestrictions();
-getTravelRoutes();
-getAirportCodes();
-// getTravelQuotes();
-
-        // "method": "GET",
-        // "headers": {
-        // 	"x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-        // 	"x-rapidapi-key": "84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7"
-//     }
-// })
-// .then(response => {
-//     console.log(response);
-// })
-//     .catch(err => {
-//         console.log(err);
-//     });
 // }
 
-// Sample provided by API Owner below
-//   .then(response => response.text())
-//   .then(result => console.log(result))
-//   .catch(error => console.log('error', error));
+// getTravelAdvice();
+// getTravelQuotes();
+// getUrlQuotes();
+
