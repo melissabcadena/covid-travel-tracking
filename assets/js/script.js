@@ -144,13 +144,7 @@ var getTravelQuotes = function () {
             if (response.ok) {
                 response.json().then(function (data) {
                     console.log(data);
-                    for (var i = 0; i < data.Carriers.length; i++) {
-                        for (var j = 0; j < data.Quotes.length; j++) {
-                            if (data.Carriers[i].CarrierId === data.Quotes[j].OutboundLeg.CarrierIds[0]) {
-                                console.log(data.Carriers[i].Name + " has a minimum price of $" + data.Quotes[j].MinPrice);
-                            }
-                        }
-                    }
+                   getTravelOptions(data);
                 });
             };
         })
@@ -158,6 +152,25 @@ var getTravelQuotes = function () {
             M.toast({html: 'ERROR: Unable to connect and gather flight routes'})
         })
 };
+
+function getTravelOptions(data) {
+    for (var i = 0; i < data.Carriers.length; i++) {
+        console.log(data.Carriers[i].Name + ' has the following flight price options')
+            var newCard = $("<div>").addClass("card card-content blue darken-4 white-text");
+            var cardTitle = $("<span>").addClass("card-title").text(data.Carriers[i].Name);
+
+            $("#flight-options").html(newCard.append(cardTitle));
+
+        for (var j = 0; j < data.Quotes.length; j++) {
+             if (data.Carriers[i].CarrierId === data.Quotes[j].OutboundLeg.CarrierIds[0]) {
+                  console.log("$" + data.Quotes[j].MinPrice);
+                  var flightPrices = $("<p>").text("$" + data.Quotes[j].MinPrice);
+                  $("#flight-options").append(flightPrices);
+              }     
+        }
+    }
+    
+}
 
 // add trip to saved trips sidebar on click
 $("#add-trip-btn").on("click", function() {
