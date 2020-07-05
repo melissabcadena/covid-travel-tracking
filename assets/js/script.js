@@ -1,9 +1,9 @@
 // Starting and Ending Locations should be Airport Codes
-var startingLocation = "DFW";
-var endingLocation = "LHR";
+var startingLocation = "";
+var endingLocation = "";
 // Dates should be in the format below from the calendar input
-var outboundDate = "2020-07-06";
-var inboundDate = "2020-07-15";
+var outboundDate = "";
+var inboundDate = "";
 
 // Display intro modal on load
 $(document).ready(function(){
@@ -11,8 +11,24 @@ $(document).ready(function(){
     $('#modal').modal('open'); 
 });
 
+// get User Input when search is submitted
 
+$("#submit-btn").on("click", function(event) {
+    event.preventDefault();
+
+    // save user inputs to variables
+    startingLocation = $(".from-city").val().trim()
+    endingLocation = $(".to-city").val().trim()
+    outboundDate = $("#outbound-date").val().trim()
+    inboundDate = $("#inbound-date").val().trim()
+    getTravelAdvice();
+    getTravelQuotes();
+})
+
+
+// fetch call for COVID Data
 var getTravelAdvice = function () {
+
     var myHeaders = new Headers();
     myHeaders.append("X-Access-Token", "a9027f3b-807c-43e4-b30c-2e9f97ed1467");
 
@@ -21,7 +37,7 @@ var getTravelAdvice = function () {
         headers: myHeaders,
         redirect: 'follow'
     };
-
+    // adds user inputs into fetch call
     fetch("https://api.traveladviceapi.com/search/" + startingLocation + ":" + endingLocation, requestOptions)
         .then(function (response) {
             if (response.ok) {
@@ -52,7 +68,11 @@ var getTravelAdvice = function () {
         });
 }
 
+// load fetched data to page
 function addCountryData (data) {
+
+    // stop hiding data cards on right side of page
+    $("div").removeClass("hide");
 
     var newDiv = $("<div>").addClass("card-content white-text");
     var cityTitle = $("<span>").addClass("card-title").text(data.Trips[0].To + " " + new Date(data.Trips[0].Date).toLocaleDateString('en-US'));
@@ -68,6 +88,7 @@ function addCountryData (data) {
     $("#covid-data").html(newDiv.append(cityTitle).append(newCases, totalCases, newDeaths, totalDeaths, restrictionLevel, restrictionNotes, lastUpdated));
 }
 
+// fetch call for flight routes
 var getTravelQuotes = function () {
     var myHeaders = new Headers();
     myHeaders.append("x-rapidapi-key", "84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7");
@@ -116,6 +137,7 @@ var getTravelQuotes = function () {
 //         });
 // }
 
-getTravelAdvice();
-getTravelQuotes();
+// getTravelAdvice();
+// getTravelQuotes();
 // getUrlQuotes();
+
