@@ -154,19 +154,22 @@ var getTravelQuotes = function () {
 };
 
 function getTravelOptions(data) {
+    // override previous search
+    $("#flight-options").text("")
     for (var i = 0; i < data.Carriers.length; i++) {
-        console.log(data.Carriers[i].Name + ' has the following flight price options')
-            var newCard = $("<div>").addClass("card card-content blue darken-4 white-text");
-            var cardTitle = $("<span>").addClass("card-title").text(data.Carriers[i].Name);
+        console.log(data.Carriers[i].Name + ' flight price options:')
+        var newCard = $("<div>").addClass("card card-content blue3 white-text");
+        var cardTitle = $("<span>").addClass("card-title").text(data.Carriers[i].Name);
 
-            $("#flight-options").html(newCard.append(cardTitle));
+        newCard.append(cardTitle);
+        $("#flight-options").append(newCard);
 
         for (var j = 0; j < data.Quotes.length; j++) {
-             if (data.Carriers[i].CarrierId === data.Quotes[j].OutboundLeg.CarrierIds[0]) {
-                  console.log("$" + data.Quotes[j].MinPrice);
-                  var flightPrices = $("<p>").text("$" + data.Quotes[j].MinPrice);
-                  $("#flight-options").append(flightPrices);
-              }     
+            if (data.Carriers[i].CarrierId === data.Quotes[j].OutboundLeg.CarrierIds[0]) {
+                console.log("$" + data.Quotes[j].MinPrice)
+                var flightPrices = $("<p>").text("$" + data.Quotes[j].MinPrice);
+                $("#flight-options").append(flightPrices);
+            }     
         }
     }
     
