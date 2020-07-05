@@ -6,6 +6,10 @@
      height: 350px;
  } 
 
+ .covidimg {
+    height: 250px;
+} 
+
  :root{
     --blue0: rgba(78, 141, 166, 0.3); 
     --blue1: #4E8DA6;
