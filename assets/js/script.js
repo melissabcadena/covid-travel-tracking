@@ -1,3 +1,12 @@
+// datepicker initialize 
+$(document).ready(function() {
+    $(".datepicker").datepicker({
+      autoClose: true,
+      minDate: new Date(),
+      format: "yyyy/mm/dd"    
+    });
+  });
+
 // Starting and Ending Locations should be Airport Codes
 var startingLocation = "";
 var endingLocation = "";
