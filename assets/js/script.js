@@ -101,7 +101,7 @@ function addCountryData (data) {
     $("div").removeClass("hide");
 
     var newDiv = $("<div>").addClass("card-content white-text");
-    var cityTitle = $("<span>").addClass("card-title").text(data.Trips[0].To + " " + new Date(data.Trips[0].Date).toLocaleDateString('en-US'));
+    var cityTitle = $("<span>").addClass("card-title").text(data.Trips[0].To + " " + new Date(data.Trips[0].Date).toISOString().split('T')[0]);
 
     var newCases = $("<p>").text("New Cases: " + data.Trips[0].LatestStats.new_cases);
     var totalCases = $("<p>").text("Total Cases: " + data.Trips[0].LatestStats.total_cases);
@@ -109,7 +109,7 @@ function addCountryData (data) {
     var totalDeaths = $("<p>").text("Total Deaths: " + data.Trips[0].LatestStats.total_deaths);
     var restrictionLevel = $("<p>").text("Restriction Level: " + data.Trips[0].Advice.News.Recommendation);
     var restrictionNotes = $("<p>").text("Notes: " + data.Trips[0].Advice.Notes[0].Note);
-    var lastUpdated = $("<p>").text("Last Updated: " + new Date(data.Trips[0].LatestStats.date).toLocaleDateString('en-US'));
+    var lastUpdated = $("<p>").text("Last Updated: " + new Date(data.Trips[0].LatestStats.date).toISOString().split('T')[0]);
     
     $("#covid-data").html(newDiv.append(cityTitle).append(newCases, totalCases, newDeaths, totalDeaths, restrictionLevel, restrictionNotes, lastUpdated));
 }
