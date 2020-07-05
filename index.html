@@ -12,7 +12,7 @@
 </head>
 <body>
     <nav>
-        <div class="nav-wrapper blue darken-4">
+        <div class="nav-wrapper blue3  z-depth-2">
           <a href="#" class="brand-logo center ">COVID Travel Tracker</a>
         </div>
       </nav>
@@ -22,10 +22,10 @@
     <main class="row">
 
         <div class="parallax-container">
-            <div class="parallax"><img src="assets/images/covid.jpeg"></div>
+            <div class="parallax"><img src="assets/images/travel3med.jpg"></div>
           </div>
-          <div class="section white">
-            <div class="row container">
+          <div class="section blue0  z-depth-2">
+            <div class="row container" >
 
         <div class="row col s12 l3" id='search-bar'>
             <div class="input-field col l12" id="from-city">
@@ -44,25 +44,21 @@
                 <input type="date" id="inbound-date" placeholder="MM/DD/YYYY" class="datepicker col s12">
                 <label for="inbound-date">Inbound:</label>
             </div>
-            <a class="waves-effect waves-light blue lighten-1 btn-large col l12">Submit<i class="material-icons right">send</i></a>
-            <div class="col l12" id="saved-trips">
-                <div class="card blue darken-4">
-                    <div class="card-content white-text">
-                    <span class="card-title">Saved Trips</span>
-                    <table>
-                        <tbody>
-                          <ul>
-                            <li><a href="#">DAL-AUS 12/21/20-12/25/20</a></li>
-                          </ul>
-                        </tbody>
-                    </table>
-                    </div>
+            <a class="waves-effect waves-light blue3 btn-large col l12">Submit<i class="material-icons right">send</i></a>
+            
+        </div>
+        <div class="col l9 right" id="flight-routes">
+            <div class="card ">
+                <div class="card-content">
+                <span class="card-title">Flight Routes</span>
+                <p></p>
                 </div>
             </div>
         </div>
+
         <div class="col l9" id="covid-data">
-            <div class="card blue darken-4">
-                <div class="card-content white-text">
+            <div class="card ">
+                <div class="card-content">
                 <span class="card-title">City Name<span id='date'> 07/02/2020</span></span>
                 <p>Total Cases: </p>
                 <p>New Cases: </p>
@@ -70,32 +66,40 @@
                 <p>Restriction Level: </p>               
                 </div>
                 <div class="card-action">
-                    <p class="white-text"><a class="btn-floating blue lighten-1"><i class="material-icons">add</i></a>
+                    <p class="card-title" ><a class="btn-floating blue3"><i class="material-icons">add</i></a>
                         Add to Saved Trips</a>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>
 <div class="parallax-container plane">
-  <div class="parallax"><img src="assets/images/travelsizemed.jpg"></div>
+  <div class="parallax"><img src="assets/images/planemed.jpeg"></div>
 </div>
 
-        <div class="col l9 right" id="flight-routes">
-            <div class="card blue darken-4">
-                <div class="card-content white-text">
-                <span class="card-title">Flight Routes</span>
-                <p></p>
-                </div>
-            </div>
+<div class="col l12" id="saved-trips">
+    <div class="card">
+        <div class="card-content">
+        <span class="card-title">Saved Trips</span>
+        <table>
+            <tbody>
+              <ul>
+                <li><a href="#">DAL-AUS 12/21/20-12/25/20</a></li>
+              </ul>
+            </tbody>
+        </table>
         </div>
+    </div>
+</div>
+
+        
     </main>
 
-    <footer>
-        <div class="row">
-            <div class="col">Footer ----------------------------------------------- Footer</div>
-        </div>
-    </footer>
+<footer class="row ">
+    <div class="col l12">Footer</div>
+    
+</footer>
 
 
       
