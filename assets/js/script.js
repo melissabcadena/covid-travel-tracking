@@ -140,6 +140,18 @@ var getTravelQuotes = function () {
         })
 };
 
+// add trip to saved trips sidebar on click
+$("#add-trip-btn").on("click", function() {
+    var savedTripLi = $("<li>")
+    var fixedOutboundDate = new Date(outboundDate).toLocaleDateString('en-US');
+    var fixedInboundDate = new Date(inboundDate).toLocaleDateString('en-US');
+
+    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + "-" + endingLocation + " " +  fixedOutboundDate + "-" + fixedInboundDate);
+    
+    savedTripLi.append(savedTripLink);
+    $(".saved-trips-list").append(savedTripLi);
+})
+
 // var getUrlQuotes = function () {
 
 //     var myHeaders = new Headers();
