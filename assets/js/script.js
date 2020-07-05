@@ -21,8 +21,25 @@ $("#submit-btn").on("click", function(event) {
     endingLocation = $(".to-city").val().trim()
     outboundDate = $("#outbound-date").val().trim()
     inboundDate = $("#inbound-date").val().trim()
-    getTravelAdvice();
-    getTravelQuotes();
+
+    // check for empty inputs
+    if(startingLocation === "" || endingLocation === "") {
+        M.toast({html: 'Please select your locations'})
+    }
+    if(outboundDate === "" || inboundDate === "") {
+        M.toast({html: 'Please select your dates'})
+    }
+    if(inboundDate < outboundDate){
+        M.toast({html: 'Inbound date must be after outbound date'})
+    }
+    if( (startingLocation != "") &
+        (endingLocation != "")&
+        (outboundDate != "")&
+        (inboundDate != "")) {
+            getTravelAdvice();
+            getTravelQuotes();
+    }
+
 })
 
 
