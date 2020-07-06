@@ -22,6 +22,7 @@ var startingLocation = "";
 var endingLocation = "";
 var outboundDate = "";
 var inboundDate = "";
+var savedTripsArray = [];
 
 // Display intro modal on load
 $(document).ready(function(){
@@ -236,8 +237,12 @@ var loadSavedTrips = function () {
     var savedTrips = JSON.parse(localStorage.getItem("savedTrips"));
 
     if (!savedTrips) {
+        $(".saved-trips-list").html("");
         return;
     } else {    
+        // push to saved trips array 
+        savedTripsArray = savedTrips;
+        console.log(savedTripsArray);
         // create list element for each obj within saved Trips array
         for (var i=0; i < savedTrips.length; i++) {
             var savedTripLi = $("<li>")
@@ -249,6 +254,12 @@ var loadSavedTrips = function () {
         }
     }
 }
+
+// on button click, saved trips will be cleared
+$("#clear-trips-btn").on('click', function () {
+    localStorage.removeItem("savedTrips");
+    loadSavedTrips();
+})
 
 // var getUrlQuotes = function () {
 
