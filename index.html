@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css"> -->
     <link rel="stylesheet" href="assets/css/style.css">
 
     <title>Covid Travel Tracker</title>
@@ -52,11 +53,11 @@
 
                 <div class="row col s12 l3" id='search-bar'>
                     <div class="input-field col l12" id="from-city">
-                        <input placeholder="City" id="from-city" type="text" class="validate from-city">
+                        <input placeholder="Airport code" id="from-city" type="text" name="term" class="validate from-city">
                         <label for="from-city">From:</label>
                     </div>
                     <div class="input-field col l12" id="to-city">
-                        <input placeholder="City" id="to-city" type="text" class="validate to-city">
+                        <input placeholder="Airport code" id="to-city" type="text" name="term" class="validate to-city">
                         <label for="to-city">To:</label>
                     </div>
                     <div class="input-field col l12">
@@ -149,13 +150,13 @@
     <footer>
         <div class="footer-copyright blue lighten-1">
             <div class="container white-text">
-                © <script>document.write( new Date().getFullYear() );</script>
+                ©
+                <script>document.write(new Date().getFullYear());</script>
                 Copyright - All right reserved
                 <a class="grey-text text-lighten-4 right" href="#!">API Links</a>
             </div>
         </div>
     </footer>
-
 
 
 

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('.parallax').parallax();
+    $(".parallax").parallax();
   });
 
 
@@ -13,7 +13,7 @@ $(document).ready(function() {
   });
 
 $(document).ready(function(){
-    $('.collapsible').collapsible();
+    $(".collapsible").collapsible();
   });
 
 
@@ -59,6 +59,9 @@ $("#submit-btn").on("click", function(event) {
             getTravelAdvice();
             getTravelQuotes();
     }
+
+    var googleFlightUrl = ("https://www.google.com/flights?hl=en#flt=" + startingLocation + "." + endingLocation + "." + outboundDate + "*" + endingLocation + "." + startingLocation + "." + inboundDate + ";c:USD;e:1;sd:1;t:f");
+    console.log(googleFlightUrl);
 
 })
 
@@ -215,6 +218,8 @@ $("#add-trip-btn").on("click", function() {
     $(".saved-trips-list").append(savedTripLi);
 })
 
+
+
 // var getUrlQuotes = function () {
 
 //     var myHeaders = new Headers();
@@ -235,6 +240,8 @@ $("#add-trip-btn").on("click", function() {
 //             };
 //         });
 // }
+
+
 
 // getTravelAdvice();
 // getTravelQuotes();
