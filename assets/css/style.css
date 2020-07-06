@@ -95,13 +95,28 @@ input[type="text"].valid {
 
 /* Buttons */
 .btn {
-  background-color: var(--blue1);
-}
-
-.btn:hover {
   background-color: var(--blue4);
 }
 
+.btn:hover {
+  background-color: var(--blue1);
+}
+.btn-flat {
+    color: var(--blue3);
+}
+
 #submit-btn:hover {
-    background-color: var(--blue4);
-  }
+  background-color: var(--blue1);
+}
+
+/* Date picker */
+.datepicker-date-display, .datepicker-table td.is-selected {
+    background-color: var(--blue2);
+}
+
+.datepicker-table td.is-today {
+    color: var(--blue2)
+}
+
+
+/* Flight options */

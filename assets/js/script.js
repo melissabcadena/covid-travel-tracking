@@ -164,6 +164,7 @@ function getTravelOptions(data) {
         var cardTitle = $("<span>").addClass("card-title").text(data.Carriers[i].Name);
 
         // card table
+       
         var table = $("<table>").addClass("centered highlight blue3");
         var thead = $("<thead>").attr('id', 'thead');
         var trhead = $("<trhead>").attr('id', 'trhead');
