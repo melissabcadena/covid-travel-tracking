@@ -172,6 +172,7 @@ function getTravelOptions(data) {
         var cardTitle = $("<span>").addClass("card-title").text(data.Carriers[i].Name);
 
         // card table
+        var addRow = $("<div>").addClass("row")
         var table = $("<table>").addClass("centered highlight blue3");
         var thead = $("<thead>").attr('id', 'thead');
         var trhead = $("<trhead>").attr('id', 'trhead');
@@ -179,8 +180,9 @@ function getTravelOptions(data) {
         var directTitle = $("<th>").text("Direct flight");
 
         table.append(thead.append(trhead.append(priceTitle,directTitle)));
+        addRow.append(table)
 
-        newCard.append(cardTitle,table);
+        newCard.append(cardTitle,addRow);
         $("#flight-options").append(newCard);
 
         var priceList = [];
