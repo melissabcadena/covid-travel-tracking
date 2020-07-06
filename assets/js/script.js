@@ -158,18 +158,38 @@ function getTravelOptions(data) {
     $("#flight-options").text("")
     for (var i = 0; i < data.Carriers.length; i++) {
         console.log(data.Carriers[i].Name + ' flight price options:')
+        //Card title
         var newCard = $("<div>").addClass("card card-content blue3 white-text");
         var cardTitle = $("<span>").addClass("card-title").text(data.Carriers[i].Name);
 
-        newCard.append(cardTitle);
+        //card table
+        var table = $("<table>").addClass("centered highlight blue3");
+        var thead = $("<thead>").attr('id', 'thead');
+        var trhead = $("<trhead>").attr('id', 'trhead');
+        var priceTitle = $("<th>").text("Price");
+        var directTitle = $("<th>").text("Direct flight");
+
+        table.append(thead.append(trhead.append(priceTitle,directTitle)));
+
+        newCard.append(cardTitle,table);
         $("#flight-options").append(newCard);
 
         for (var j = 0; j < data.Quotes.length; j++) {
             if (data.Carriers[i].CarrierId === data.Quotes[j].OutboundLeg.CarrierIds[0]) {
-                console.log("$" + data.Quotes[j].MinPrice)
-                var flightPrices = $("<p>").text("$" + data.Quotes[j].MinPrice);
-                $("#flight-options").append(flightPrices);
-            }     
+                console.log("$" + data.Quotes[j].MinPrice + " Direct: " + data.Quotes[j].Direct)
+                // add prices and direct flight to table
+                var tbody = $("<tbody>").attr('id', 'tbody');
+                var trbody = $("<tr>").attr('id', 'trbody');
+                var flightPrice = $("<td>").text("$" + data.Quotes[j].MinPrice);
+                var directFlight = $("<td>").attr('id', 'directFlight');
+                if(data.Quotes[j].Direct === true) {
+                    directFlight.text("Yes");
+                }else {
+                    directFlight.text("No");
+                }
+
+                table.append(tbody.append(trbody.append(flightPrice,directFlight)));
+            } 
         }
     }
     
