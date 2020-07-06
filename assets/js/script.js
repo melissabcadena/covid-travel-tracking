@@ -17,10 +17,9 @@ $(document).ready(function(){
   });
 
 
-// Starting and Ending Locations should be Airport Codes
+// setting global variables
 var startingLocation = "";
 var endingLocation = "";
-// Dates should be in the format below from the calendar input
 var outboundDate = "";
 var inboundDate = "";
 
@@ -128,7 +127,7 @@ function addCountryData (data) {
     $("#covid-data").html(newDiv.append(cityTitle).append(newCases, totalCases, newDeaths, totalDeaths, restrictionLevel, restrictionNotes, lastUpdated));
 }
 
-// fetch call for flight routes
+// fetch call for flight options
 var getTravelQuotes = function () {
     var myHeaders = new Headers();
     myHeaders.append("x-rapidapi-key", "84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7");
@@ -153,6 +152,7 @@ var getTravelQuotes = function () {
         })
 };
 
+// load flight options to page
 function getTravelOptions(data) {
     // override previous search
     $("#flight-options").text("")
@@ -230,6 +230,26 @@ $("#add-trip-btn").on("click", function() {
     $(".saved-trips-list").append(savedTripLi);
 })
 
+// will load previously saved Trips to page
+var loadSavedTrips = function () {
+    // pull from local storage
+    var savedTrips = JSON.parse(localStorage.getItem("savedTrips"));
+
+    if (!savedTrips) {
+        return;
+    } else {    
+        // create list element for each obj within saved Trips array
+        for (var i=0; i < savedTrips.length; i++) {
+            var savedTripLi = $("<li>")
+            var savedTripLink = $("<a>").attr("href", "#").text(savedTrips[i].outboundCity + "-" + savedTrips[i].inboundCity + " " +  savedTrips[i].outboundDate + "-" + savedTrips[i].inboundDate);
+            
+            // append saved trip to page
+            savedTripLi.append(savedTripLink);
+            $(".saved-trips-list").append(savedTripLi);
+        }
+    }
+}
+
 // var getUrlQuotes = function () {
 
 //     var myHeaders = new Headers();
@@ -251,7 +271,5 @@ $("#add-trip-btn").on("click", function() {
 //         });
 // }
 
-// getTravelAdvice();
-// getTravelQuotes();
-// getUrlQuotes();
+loadSavedTrips();
 
