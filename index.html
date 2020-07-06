@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Titillium+Web:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&family=Titillium+Web:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 
     <title>Covid Travel Tracker</title>
@@ -14,7 +16,7 @@
 
 <body>
     <!--Intro Modal-->
-    <div id="modal" class="modal">
+    <!-- <div id="modal" class="modal">
         <div class="modal-content">
             <h4>Welcome to COVID Travel Tracker!</h4>
             <p>Please note: If you have experienced any of the below symptoms, or have been exposed to someone who has
@@ -28,7 +30,7 @@
         <div class="modal-footer">
             <a href="#!" class="modal-action modal-close waves-effect waves-light btn">Continue</a>
         </div>
-    </div>
+    </div> -->
 
     <!--Header/Navbar-->
     <nav class="top-nav">
@@ -45,41 +47,45 @@
         </div>
         <div class="section z-depth-2">
             <div class="row container">
-
-                <div class="row col s12 l3" id='search-bar'>
-                    <div class="input-field col l12" id="from-city">
-                        <input placeholder="City" id="from-city" type="text" class="validate from-city">
-                        <label for="from-city">From:</label>
-                    </div>
-                    <div class="input-field col l12" id="to-city">
-                        <input placeholder="City" id="to-city" type="text" class="validate to-city">
-                        <label for="to-city">To:</label>
-                    </div>
+                
+                <div class="row col s12 l3" id="search-bar">
+                    
                     <div class="input-field col l12">
-                        <input type="text" id="outbound-date" placeholder="MM/DD/YYYY" class="datepicker col s12">
-                        <label for="outbound-date">Outbound:</label>
-                    </div>
-                    <div class="input-field col l12">
-                        <input type="text" id="inbound-date" placeholder="MM/DD/YYYY" class="datepicker col s12">
-                        <label for="inbound-date">Inbound:</label>
-                    </div>
-                    <a id="submit-btn" class="waves-effect waves-light blue4 btn-large col l12">Submit<i
-                            class="material-icons right">send</i></a>
-
-                    <!-- Saved Trips Card -->
-                    <div class="col l12" id="saved-trips">
-                        <div class="card blue darken-4">
-                            <div class="card-content white-text">
-                                <span class="card-title">Saved Trips</span>
-                                <table>
-                                    <tbody>
-                                        <ul class="saved-trips-list">
-                                            <li><a href="#">DAL-AUS 12/21/20-12/25/20</a></li>
-                                        </ul>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <h6>Search round-trip flights by airport code</h6>
+                        <div id="from-city">
+                            <label for="from-city">From:</label>
+                            <input placeholder="City" id="from-city" type="text" class="validate from-city">
                         </div>
+                        <div id="to-city">
+                            <label for="to-city">To:</label>
+                            <input placeholder="City" id="to-city" type="text" class="validate to-city">
+                        </div>
+                        <div>
+                            <label for="outbound-date">Outbound:</label>
+                            <input type="text" id="outbound-date" placeholder="MM/DD/YYYY" class="datepicker col s12">
+                        </div>
+                        <div>
+                            <label for="inbound-date">Inbound:</label>
+                            <input type="text" id="inbound-date" placeholder="MM/DD/YYYY" class="datepicker col s12">
+                        </div>
+                        <a id="submit-btn" class="waves-effect waves-light blue4 btn-large col s12">Submit<i
+                                class="material-icons right">send</i></a>
+
+                    </div>
+
+
+                    <!-- Saved Trips -->
+                    <div class="col s12 hide" id="saved-trips">
+                        <ul class="collapsible">
+                            <li>
+                                <div class="collapsible-header">
+                                    <h5><i class="material-icons left">cloud</i>Saved Trips</h5>
+                                </div>
+                                <div class="saved-trips-list collapsible-body"></span>
+                                </div>
+                            </li>
+
+                        </ul>
                     </div>
                 </div>
 
@@ -90,7 +96,7 @@
                         </div>
                     </div>
                     <div class="col l9 right" id="flight-routes">
-                        <div class="card blue1 white-text">
+                        <div class="card">
                             <div class="card-content">
                                 <span class="card-title">Flight Options</span>
                                 <p>These airlines have the following flight price options</p>
@@ -114,28 +120,6 @@
             <div class="parallax"><img src="assets/images/planemed.jpeg"></div>
         </div>
 
-        <div class="col l12" id="saved-trips">
-            <!-- <div class="card"> -->
-            <div class="card-content">
-                <!-- <span class="card-title">Saved Trips</span> -->
-                <table>
-                    <tbody>
-                        <ul class="collapsible">
-                            <li>
-                                <div class="collapsible-header"><i class="material-icons">filter_drama</i>Saved Trips
-                                </div>
-                                <div class="collapsible-body"><span><a href="#">DAL-AUS 12/21/20-12/25/20</a></span>
-                                </div>
-                            </li>
-                            <!-- <li><a href="#">DAL-AUS 12/21/20-12/25/20</a></li> -->
-                        </ul>
-                    </tbody>
-                </table>
-            </div>
-            <!-- </div> -->
-        </div>
-
-
     </main>
 
     <div class="parallax-container covidimg z-depth-2">
@@ -145,7 +129,8 @@
     <footer>
         <div class="footer-copyright blue lighten-1">
             <div class="container white-text">
-                &copy; <script>document.write( new Date().getFullYear() );</script>
+                &copy;
+                <script>document.write(new Date().getFullYear());</script>
                 Copyright - All right reserved
                 <a class="grey-text text-lighten-4 right" href="#!">API Links</a>
             </div>

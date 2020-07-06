@@ -14,7 +14,7 @@ h6 {
   font-family: "Titillium Web", sans-serif;
 }
 
-h1 {
+h1, h2 {
   margin: 0;
 }
 
@@ -56,9 +56,6 @@ h1 {
   font-weight: bold;
 }
 
-.hide {
-  display: none;
-}
 
 .parallax-container {
   height: 300px;
@@ -119,4 +116,20 @@ input[type="text"].valid {
 }
 
 
+/* Covid Data */
+#covid-data a {
+        color: white;
+        text-decoration: underline;
+    
+}
+
+/* Saved Trips */
+.saved-trips-list a {
+    color: var(--blue3);
+}
+
+
+
 /* Flight options */
+
+
