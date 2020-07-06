@@ -62,18 +62,26 @@ h1, h2, h3, h4, h5 {
   font-weight: bold;
 }
 
-
-.parallax-container {
-  height: 300px;
+/* Brand Logo */
+nav .brand-logo {
+    position: relative;
 }
 
-.plane {
+nav .nav-wrapper {
+    height: auto;
+}
+
+.parallax-container {
+  height: 350px;
+}
+
+/* .plane {
   height: 350px;
 }
 
 .covidimg {
   height: 250px;
-}
+} */
 
 /* Modal welcome */
 #modal.modal {
@@ -142,3 +150,11 @@ input[type="text"].valid {
 /* Flight options */
 
 
+/*** MEDIA QUERY FOR MOBILE PHONES AND SMALLER ***/
+/* this will be applied on any screen smaller than 575px */
+@media screen and (max-width: 575px) {
+    .parallax-container {
+        height: 250px;
+    }
+
+}
