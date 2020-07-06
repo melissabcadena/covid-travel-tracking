@@ -60,8 +60,7 @@ $("#submit-btn").on("click", function (event) {
         getTravelQuotes();
     }
 
-    var googleFlightUrl = ("https://www.google.com/flights?hl=en#flt=" + startingLocation + "." + endingLocation + "." + outboundDate + "*" + endingLocation + "." + startingLocation + "." + inboundDate + ";c:USD;e:1;sd:1;t:f");
-    console.log(googleFlightUrl);
+    
 
 })
 
