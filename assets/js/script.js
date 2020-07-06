@@ -110,22 +110,30 @@ var getTravelAdvice = function () {
 
 // load fetched data to page
 function addCountryData (data) {
-
     // stop hiding data cards on right side of page
     $("div").removeClass("hide");
 
     var newDiv = $("<div>").addClass("card-content white-text");
     var cityTitle = $("<span>").addClass("card-title").text(data.Trips[0].To + " " + new Date(data.Trips[0].Date).toISOString().split('T')[0]);
 
+    // get note URL
+    var urlRegex = /(https?:\/\/[^ ]*)/;
+    var input = data.Trips[0].Advice.Notes[0].Note;
+    var url = input.match(urlRegex)[1];
+    var note = input.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+
     var newCases = $("<p>").text("New Cases: " + data.Trips[0].LatestStats.new_cases);
     var totalCases = $("<p>").text("Total Cases: " + data.Trips[0].LatestStats.total_cases);
     var newDeaths = $("<p>").text("New Deaths: " + data.Trips[0].LatestStats.new_deaths);
     var totalDeaths = $("<p>").text("Total Deaths: " + data.Trips[0].LatestStats.total_deaths);
     var restrictionLevel = $("<p>").text("Restriction Level: " + data.Trips[0].Advice.News.Recommendation);
-    var restrictionNotes = $("<p>").text("Notes: " + data.Trips[0].Advice.Notes[0].Note);
+    var notesContainer = $("<p>");
+    var restrictionNotes = $("<span>").text("Notes: " + note);
+    var restrictionURL = $("<a />").text("More information").attr("href", url).attr("target", "_blank");
     var lastUpdated = $("<p>").text("Last Updated: " + new Date(data.Trips[0].LatestStats.date).toISOString().split('T')[0]);
     
-    $("#covid-data").html(newDiv.append(cityTitle).append(newCases, totalCases, newDeaths, totalDeaths, restrictionLevel, restrictionNotes, lastUpdated));
+    notesContainer.append(restrictionNotes,restrictionURL);
+    $("#covid-data").html(newDiv.append(cityTitle).append(newCases, totalCases, newDeaths, totalDeaths, restrictionLevel, notesContainer, lastUpdated));
 }
 
 // fetch call for flight routes
@@ -164,7 +172,7 @@ function getTravelOptions(data) {
         var cardTitle = $("<span>").addClass("card-title").text(data.Carriers[i].Name);
 
         // card table
-       
+        var addRow = $("<div>").addClass("row")
         var table = $("<table>").addClass("centered highlight blue3");
         var thead = $("<thead>").attr('id', 'thead');
         var trhead = $("<trhead>").attr('id', 'trhead');
@@ -172,8 +180,9 @@ function getTravelOptions(data) {
         var directTitle = $("<th>").text("Direct flight");
 
         table.append(thead.append(trhead.append(priceTitle,directTitle)));
+        addRow.append(table)
 
-        newCard.append(cardTitle,table);
+        newCard.append(cardTitle,addRow);
         $("#flight-options").append(newCard);
 
         var priceList = [];
