@@ -1,9 +1,14 @@
 /***** CSS Overwrite *****/
 
-/* Font families */
+/* Default styling */
 html {
   font-family: "Roboto", sans-serif;
 }
+
+p {
+    line-height: 25px;
+}
+
 /* Headings */
 h1,
 h2,
@@ -14,9 +19,10 @@ h6 {
   font-family: "Titillium Web", sans-serif;
 }
 
-h1 {
+h1, h2, h3, h4, h5 {
   margin: 0;
 }
+
 
 /* Color palette */
 :root {
@@ -56,9 +62,6 @@ h1 {
   font-weight: bold;
 }
 
-.hide {
-  display: none;
-}
 
 .parallax-container {
   height: 300px;
@@ -119,4 +122,23 @@ input[type="text"].valid {
 }
 
 
+/* Covid Data */
+#covid-data a {
+        color: white;
+        text-decoration: underline;
+    
+}
+
+/* Saved Trips */
+.saved-trips-list a {
+    color: var(--blue3);
+}
+
+.delete-saved-trips {
+    padding: 15px;
+}
+
+
 /* Flight options */
+
+

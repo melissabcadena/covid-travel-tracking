@@ -97,7 +97,7 @@ function addCountryData(data) {
     $("div").removeClass("hide");
 
     var newDiv = $("<div>").addClass("card-content white-text");
-    var cityTitle = $("<span>").addClass("card-title").text(data.Trips[0].To + " " + new Date(data.Trips[0].Date).toISOString().split('T')[0]);
+    var cityTitle = $("<h2>").addClass("card-title").text(data.Trips[0].To + " " + new Date(data.Trips[0].Date).toISOString().split('T')[0]);
 
     // get note URL
     var urlRegex = /(https?:\/\/[^ ]*)/;
@@ -112,7 +112,7 @@ function addCountryData(data) {
     var restrictionLevel = $("<p>").text("Restriction Level: " + data.Trips[0].Advice.News.Recommendation);
     var notesContainer = $("<p>");
     var restrictionNotes = $("<span>").text("Notes: " + note);
-    var restrictionURL = $("<a />").text("More information").attr("href", url).attr("target", "_blank");
+    var restrictionURL = $("<a />").text("More information >").attr("href", url).attr("target", "_blank");
     var lastUpdated = $("<p>").text("Last Updated: " + new Date(data.Trips[0].LatestStats.date).toISOString().split('T')[0]);
 
     notesContainer.append(restrictionNotes, restrictionURL);
@@ -199,12 +199,13 @@ function getTravelOptions(data) {
 
 // add trip to saved trips sidebar on click
 $("#add-trip-btn").on("click", function() {
+    $("div").removeClass("hide");
 
     var savedTripLi = $("<li>")
     var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
     var fixedInboundDate = new Date(inboundDate).toISOString().split('T')[0];
 
-    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + "-" + endingLocation + " " +  fixedOutboundDate + "-" + fixedInboundDate);
+    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " - " + endingLocation + "  (" +  fixedOutboundDate + " - " + fixedInboundDate + ") ");
     
     // save to saved trip info to an object
     var savedTripObj = {
@@ -222,6 +223,7 @@ $("#add-trip-btn").on("click", function() {
     // append saved trip to page
     savedTripLi.append(savedTripLink);
     $(".saved-trips-list").append(savedTripLi);
+    
 })
 
 // will load previously saved Trips to page
