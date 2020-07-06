@@ -156,13 +156,14 @@ var getTravelQuotes = function () {
 function getTravelOptions(data) {
     // override previous search
     $("#flight-options").text("")
+    // loop through all carriers
     for (var i = 0; i < data.Carriers.length; i++) {
         console.log(data.Carriers[i].Name + ' flight price options:')
-        //Card title
+        // card title
         var newCard = $("<div>").addClass("card card-content blue3 white-text");
         var cardTitle = $("<span>").addClass("card-title").text(data.Carriers[i].Name);
 
-        //card table
+        // card table
         var table = $("<table>").addClass("centered highlight blue3");
         var thead = $("<thead>").attr('id', 'thead');
         var trhead = $("<trhead>").attr('id', 'trhead');
@@ -174,18 +175,25 @@ function getTravelOptions(data) {
         newCard.append(cardTitle,table);
         $("#flight-options").append(newCard);
 
+        var priceList = [];
+        // loop through all quotes
         for (var j = 0; j < data.Quotes.length; j++) {
+            // check for same carrier id
             if (data.Carriers[i].CarrierId === data.Quotes[j].OutboundLeg.CarrierIds[0]) {
-                console.log("$" + data.Quotes[j].MinPrice + " Direct: " + data.Quotes[j].Direct)
-                // add prices and direct flight to table
-                var tbody = $("<tbody>").attr('id', 'tbody');
-                var trbody = $("<tr>").attr('id', 'trbody');
-                var flightPrice = $("<td>").text("$" + data.Quotes[j].MinPrice);
-                var directFlight = $("<td>").attr('id', 'directFlight');
-                if(data.Quotes[j].Direct === true) {
-                    directFlight.text("Yes");
-                }else {
-                    directFlight.text("No");
+                // if price is not repeated
+                if(!priceList.includes(data.Quotes[j].MinPrice)){
+                    priceList.push(data.Quotes[j].MinPrice)
+                    console.log("$" + data.Quotes[j].MinPrice + " Direct: " + data.Quotes[j].Direct)
+                    // add prices and direct flight to table
+                    var tbody = $("<tbody>").attr('id', 'tbody');
+                    var trbody = $("<tr>").attr('id', 'trbody');
+                    var flightPrice = $("<td>").text("$" + data.Quotes[j].MinPrice);
+                    var directFlight = $("<td>").attr('id', 'directFlight');
+                    if(data.Quotes[j].Direct === true) {
+                        directFlight.text("Yes");
+                    }else {
+                        directFlight.text("No");
+                    }
                 }
 
                 table.append(tbody.append(trbody.append(flightPrice,directFlight)));
