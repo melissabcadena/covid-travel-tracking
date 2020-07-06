@@ -17,12 +17,12 @@ $(document).ready(function(){
   });
 
 
-// Starting and Ending Locations should be Airport Codes
+// setting global variables
 var startingLocation = "";
 var endingLocation = "";
-// Dates should be in the format below from the calendar input
 var outboundDate = "";
 var inboundDate = "";
+var savedTripsArray = [];
 
 // Display intro modal on load
 $(document).ready(function(){
@@ -136,7 +136,7 @@ function addCountryData (data) {
     $("#covid-data").html(newDiv.append(cityTitle).append(newCases, totalCases, newDeaths, totalDeaths, restrictionLevel, notesContainer, lastUpdated));
 }
 
-// fetch call for flight routes
+// fetch call for flight options
 var getTravelQuotes = function () {
     var myHeaders = new Headers();
     myHeaders.append("x-rapidapi-key", "84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7");
@@ -161,6 +161,7 @@ var getTravelQuotes = function () {
         })
 };
 
+// load flight options to page
 function getTravelOptions(data) {
     // override previous search
     $("#flight-options").text("")
@@ -215,14 +216,59 @@ function getTravelOptions(data) {
 
 // add trip to saved trips sidebar on click
 $("#add-trip-btn").on("click", function() {
+
     var savedTripLi = $("<li>")
     var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
     var fixedInboundDate = new Date(inboundDate).toISOString().split('T')[0];
 
     var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + "-" + endingLocation + " " +  fixedOutboundDate + "-" + fixedInboundDate);
     
+    // save to saved trip info to an object
+    var savedTripObj = {
+        outboundCity: startingLocation,
+        inboundCity: endingLocation,
+        outboundDate: fixedOutboundDate,
+        inboundDate: fixedInboundDate
+    }
+    // push that to savedTripsArray 
+    savedTripsArray.push(savedTripObj);
+
+    // save to local storage 
+    localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
+
+    // append saved trip to page
     savedTripLi.append(savedTripLink);
     $(".saved-trips-list").append(savedTripLi);
+})
+
+// will load previously saved Trips to page
+var loadSavedTrips = function () {
+    // pull from local storage
+    var savedTrips = JSON.parse(localStorage.getItem("savedTrips"));
+
+    if (!savedTrips) {
+        $(".saved-trips-list").html("");
+        return;
+    } else {    
+        // push to saved trips array 
+        savedTripsArray = savedTrips;
+        console.log(savedTripsArray);
+        // create list element for each obj within saved Trips array
+        for (var i=0; i < savedTrips.length; i++) {
+            var savedTripLi = $("<li>")
+            var savedTripLink = $("<a>").attr("href", "#").text(savedTrips[i].outboundCity + "-" + savedTrips[i].inboundCity + " " +  savedTrips[i].outboundDate + "-" + savedTrips[i].inboundDate);
+            
+            // append saved trip to page
+            savedTripLi.append(savedTripLink);
+            $(".saved-trips-list").append(savedTripLi);
+        }
+    }
+}
+
+// on button click, saved trips will be cleared
+$("#clear-trips-btn").on('click', function () {
+    localStorage.removeItem("savedTrips");
+    loadSavedTrips();
 })
 
 // var getUrlQuotes = function () {
@@ -246,7 +292,5 @@ $("#add-trip-btn").on("click", function() {
 //         });
 // }
 
-// getTravelAdvice();
-// getTravelQuotes();
-// getUrlQuotes();
+loadSavedTrips();
 
