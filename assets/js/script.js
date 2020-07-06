@@ -222,7 +222,7 @@ $("#add-trip-btn").on("click", function() {
     var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
     var fixedInboundDate = new Date(inboundDate).toISOString().split('T')[0];
 
-    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " - " + endingLocation + "  (" +  fixedOutboundDate + " - " + fixedInboundDate + ") ");
+    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " " + endingLocation + " " +  fixedOutboundDate + " " + fixedInboundDate);
     
     // save to saved trip info to an object
     var savedTripObj = {
@@ -258,7 +258,7 @@ var loadSavedTrips = function () {
         // create list element for each obj within saved Trips array
         for (var i=0; i < savedTrips.length; i++) {
             var savedTripLi = $("<li>")
-            var savedTripLink = $("<a>").attr("href", "#").text(savedTrips[i].outboundCity + "-" + savedTrips[i].inboundCity + " " +  savedTrips[i].outboundDate + "-" + savedTrips[i].inboundDate);
+            var savedTripLink = $("<a>").attr("href", "#").text(savedTrips[i].outboundCity + " " + savedTrips[i].inboundCity + " " +  savedTrips[i].outboundDate + " " + savedTrips[i].inboundDate);
             
             // append saved trip to page
             savedTripLi.append(savedTripLink);
@@ -271,6 +271,20 @@ var loadSavedTrips = function () {
 $("#clear-trips-btn").on('click', function () {
     localStorage.removeItem("savedTrips");
     loadSavedTrips();
+})
+
+$(".saved-trips-list").on('click', function(event) {
+    event.preventDefault();
+    var trip = event.target.text;
+    var splitTripInfo = trip.split(" ");
+    startingLocation = splitTripInfo[0];
+    endingLocation = splitTripInfo[1];
+    outboundDate = splitTripInfo[2];
+    inboundDate = splitTripInfo[3];
+
+    getTravelAdvice();
+    getTravelQuotes();
+
 })
 
 // var getUrlQuotes = function () {
