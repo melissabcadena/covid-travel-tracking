@@ -205,12 +205,27 @@ function getTravelOptions(data) {
 
 // add trip to saved trips sidebar on click
 $("#add-trip-btn").on("click", function() {
+
     var savedTripLi = $("<li>")
     var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
     var fixedInboundDate = new Date(inboundDate).toISOString().split('T')[0];
 
     var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + "-" + endingLocation + " " +  fixedOutboundDate + "-" + fixedInboundDate);
     
+    // save to saved trip info to an object
+    var savedTripObj = {
+        outboundCity: startingLocation,
+        inboundCity: endingLocation,
+        outboundDate: fixedOutboundDate,
+        inboundDate: fixedInboundDate
+    }
+    // push that to savedTripsArray 
+    savedTripsArray.push(savedTripObj);
+
+    // save to local storage 
+    localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
+
+    // append saved trip to page
     savedTripLi.append(savedTripLink);
     $(".saved-trips-list").append(savedTripLi);
 })
