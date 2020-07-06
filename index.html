@@ -47,15 +47,16 @@
         </div>
         <div class="section z-depth-2">
             <div class="row container">
-                
+
                 <div class="row col s12 l3" id="search-bar">
-                    
+
                     <div class="input-field col l12">
-                        <h6>Search round-trip flights by airport code</h6>
+                        <h6>Search round-trip flights by airport codes</h6>
                         <div id="from-city">
                             <label for="from-city">From:</label>
                             <input placeholder="City" id="from-city" type="text" class="validate from-city">
                         </div>
+
                         <div id="to-city">
                             <label for="to-city">To:</label>
                             <input placeholder="City" id="to-city" type="text" class="validate to-city">
@@ -72,19 +73,19 @@
                                 class="material-icons right">send</i></a>
 
                     </div>
-
-
                     <!-- Saved Trips -->
-                    <div class="col s12 hide" id="saved-trips">
+                    <div class="col s12" id="saved-trips">
                         <ul class="collapsible">
                             <li>
                                 <div class="collapsible-header">
-                                    <h5><i class="material-icons left">cloud</i>Saved Trips</h5>
+                                    <h5>Saved Trips</h5>
                                 </div>
                                 <div class="saved-trips-list collapsible-body"></span>
                                 </div>
                             </li>
-
+                            <li class="delete-saved-trips"><a id="clear-trips-btn" class="btn-floating blue3"><i class="material-icons">delete</i></a>
+                            Clear Saved Trips</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
