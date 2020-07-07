@@ -30,6 +30,81 @@ $(document).ready(function () {
     $('#modal').modal('open');
 });
 
+// get search term when airport code search is submitted
+$("#airport-search-btn").on("click", function (event) {
+    event.preventDefault();
+
+    var airportCodeSearch = $("#airport-search").val().trim()
+    console.log(airportCodeSearch);
+
+    getAirportOptions(airportCodeSearch);
+});
+
+var getAirportOptions = function (airportCodeSearch) {
+
+    var myHeaders = new Headers();
+    myHeaders.append("x-rapidapi-key", "84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7");
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    fetch("https://tripadvisor1.p.rapidapi.com/airports/search?locale=en_US&query=" + airportCodeSearch, requestOptions)
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
+                    console.log(data);
+                    displayAirportInfo(data);
+                });
+            };
+        })
+        .catch(function () {
+            M.toast({ html: 'ERROR: Unable to connect and gather COVID-19 data' })
+        })
+};
+
+function displayAirportInfo(data) {
+    $("<div>").removeClass("hide");
+    // override previous search
+    $("#airport-options").text("")
+    // loop through all carriers
+
+    // card title
+    var newCard = $("<div>").addClass("card card-content blue3 white-text");
+    // var cardTitle = $("<span>").addClass("card-title").text(data);
+    // card table
+    var addRow = $("<div>").addClass("row");
+    var table = $("<table>").addClass("centered highlight blue3");
+    var thead = $("<thead>").attr('id', 'thead');
+    var trhead = $("<tr>").attr('id', 'trhead');
+    var airportCodeTitle = $("<th>").text("Airport Code");
+    var airportNameTitle = $("<th>").text("Airport Name");
+    var locationTitle = $("<th>").text("City, Country");
+
+    table.append(thead.append(trhead.append(airportCodeTitle, airportNameTitle, locationTitle)));
+
+    for (var i = 0; i < data.length; i++) {
+        var airportName = data[i].name;
+        var airportCode = data[i].code;
+        var cityName = data[i].display_title;
+        var countryCode = data[i].country_code;
+        var fullAirportInfo = data[i].display_name;
+
+        
+        addRow.append(table.append(airportCode, airportName, cityName));
+
+        newCard.append(addRow);
+        $("#airport-options").append(newCard);
+
+        // var tbody = $("<tbody>").attr('id', 'tbody');
+        // var trbody = $("<tr>").attr('id', 'trbody');
+
+        // table.append(tbody.append(trbody.append(airportCode, airportName, cityName)));
+    };
+};
+
 // get User Input when search is submitted
 
 $("#submit-btn").on("click", function (event) {
@@ -78,7 +153,7 @@ var getTravelAdvice = function () {
         redirect: 'follow'
     };
     // adds user inputs into fetch call
-    fetch("https://api.traveladviceapi.com/search/" + startingLocation + ":" + endingLocation, requestOptions)
+    fetch("https://api.traveladviceapi.com/search/" + startingLocation + ":" + endingLocation + "," + endingLocation + ":" + startingLocation, requestOptions)
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
@@ -278,31 +353,9 @@ $(".saved-trips-list").on('click', function (event) {
 
 })
 
-// var getUrlQuotes = function () {
-
-//     var myHeaders = new Headers();
-//     myHeaders.append("x-rapidapi-key", "84e88edf43msh8f94761f7dfb087p1e1596jsn0ddf7fe493e7");
-
-//     var requestOptions = {
-//         method: 'GET',
-//         headers: myHeaders,
-//         redirect: 'follow'
-//     };
-
-//     fetch("https://tripadvisor1.p.rapidapi.com/flights/create-session?currency=USD&ta=1&c=0&d1=" + endingLocation + "&o1=" + startingLocation + "&dd1=" + outboundDate, requestOptions)
-//         .then(function (response) {
-//             if (response.ok) {
-//                 response.json().then(function (data) {
-//                     console.log(data);
-//                 });
-//             };
-//         });
-// }
-
 
 
 // getTravelAdvice();
 // getTravelQuotes();
-// getUrlQuotes();
+// getAirportCode();
 loadSavedTrips();
-
