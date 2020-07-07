@@ -173,10 +173,10 @@ function getTravelOptions(data) {
         var cardTitle = $("<span>").addClass("card-title").text(data.Carriers[i].Name);
 
         // card table
-        var addRow = $("<div>").addClass("row")
+        var addRow = $("<div>").addClass("row");
         var table = $("<table>").addClass("centered highlight blue3");
         var thead = $("<thead>").attr('id', 'thead');
-        var trhead = $("<trhead>").attr('id', 'trhead');
+        var trhead = $("<tr>").attr('id', 'trhead');
         var priceTitle = $("<th>").text("Price");
         var directTitle = $("<th>").text("Direct flight");
 
@@ -216,7 +216,7 @@ function getTravelOptions(data) {
 
 // add trip to saved trips sidebar on click
 $("#add-trip-btn").on("click", function() {
-    $("div").removeClass("hide");
+   
 
     var savedTripLi = $("<li>")
     var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
