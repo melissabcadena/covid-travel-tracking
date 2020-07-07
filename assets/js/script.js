@@ -60,9 +60,8 @@ $("#submit-btn").on("click", function (event) {
         getTravelQuotes();
     }
 
-    var googleFlightUrl = ("https://www.google.com/flights?hl=en#flt=" + startingLocation + "." + endingLocation + "." + outboundDate + "*" + endingLocation + "." + startingLocation + "." + inboundDate + ";c:USD;e:1;sd:1;t:f");
-    console.log(googleFlightUrl);
-
+    // var googleFlightUrl = ("https://www.google.com/flights?hl=en#flt=" + startingLocation + "." + endingLocation + "." + outboundDate + "*" + endingLocation + "." + startingLocation + "." + inboundDate + ";c:USD;e:1;sd:1;t:f");
+    // console.log(googleFlightUrl);
 })
 
 
@@ -154,8 +153,17 @@ var getTravelQuotes = function () {
 
 // load flight options to page
 function getTravelOptions(data) {
+    var googleFlightUrl = ("https://www.google.com/flights?hl=en#flt=" + startingLocation + "." + endingLocation + "." + outboundDate + "*" + endingLocation + "." + startingLocation + "." + inboundDate + ";c:USD;e:1;sd:1;t:f");
+    console.log(googleFlightUrl);
     // override previous search
     $("#flight-options").text("")
+
+    // create link to Google Flight URL
+    var flightUrl = $("<a />").text("Book a flight").attr("href", googleFlightUrl).attr("target", "_blank").addClass("btn waves-effect");
+    var icon = $("<i>").text("airplanemode_active").addClass("material-icons right");
+    flightUrl.append(icon);
+    $("#flight-card-content").append(flightUrl);
+
     // loop through all carriers
     for (var i = 0; i < data.Carriers.length; i++) {
         console.log(data.Carriers[i].Name + ' flight price options:')
