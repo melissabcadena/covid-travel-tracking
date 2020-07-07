@@ -60,7 +60,8 @@ $("#submit-btn").on("click", function (event) {
         getTravelQuotes();
     }
 
-    
+    var googleFlightUrl = ("https://www.google.com/flights?hl=en#flt=" + startingLocation + "." + endingLocation + "." + outboundDate + "*" + endingLocation + "." + startingLocation + "." + inboundDate + ";c:USD;e:1;sd:1;t:f");
+    console.log(googleFlightUrl);
 
 })
 
@@ -105,18 +106,25 @@ function addCountryData(data) {
     var url = input.match(urlRegex)[1];
     var note = input.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
 
-    var newCases = $("<p>").text("New Cases: " + data.Trips[0].LatestStats.new_cases);
-    var totalCases = $("<p>").text("Total Cases: " + data.Trips[0].LatestStats.total_cases);
-    var newDeaths = $("<p>").text("New Deaths: " + data.Trips[0].LatestStats.new_deaths);
-    var totalDeaths = $("<p>").text("Total Deaths: " + data.Trips[0].LatestStats.total_deaths);
-    var restrictionLevel = $("<p>").text("Restriction Level: " + data.Trips[0].Advice.News.Recommendation);
-    var notesContainer = $("<p>");
-    var restrictionNotes = $("<span>").text("Notes: " + note);
-    var restrictionURL = $("<a />").text("More information >").attr("href", url).attr("target", "_blank");
-    var lastUpdated = $("<p>").text("Last Updated: " + new Date(data.Trips[0].LatestStats.date).toISOString().split('T')[0]);
+    // Add commas in numbers
+    var newCases = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 10 }).format(data.Trips[0].LatestStats.new_cases);
+    var totalCases = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 10 }).format(data.Trips[0].LatestStats.total_cases);
+    var newDeaths = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 10 }).format(data.Trips[0].LatestStats.new_deaths);
+    var totalDeaths = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 10 }).format(data.Trips[0].LatestStats.total_deaths);
 
-    notesContainer.append(restrictionNotes, restrictionURL);
-    $("#covid-data").html(newDiv.append(cityTitle).append(newCases, totalCases, newDeaths, totalDeaths, restrictionLevel, notesContainer, lastUpdated));
+    // Create COVID data elements
+    var newCasesEl = $("<p>").text("New Cases: " + newCases);
+    var totalCasesEl = $("<p>").text("Total Cases: " + totalCases);
+    var newDeathsEl = $("<p>").text("New Deaths: " + newDeaths);
+    var totalDeathsEl = $("<p>").text("Total Deaths: " + totalDeaths);
+    var restrictionLevelEl = $("<p>").text("Restriction Level: " + data.Trips[0].Advice.News.Recommendation);
+    var notesContainerEl = $("<p>");
+    var restrictionNotesEl = $("<span>").text("Notes: " + note);
+    var restrictionURLEl = $("<a />").text("More information >").attr("href", url).attr("target", "_blank");
+    var lastUpdatedEl = $("<p>").text("Last Updated: " + new Date(data.Trips[0].LatestStats.date).toISOString().split('T')[0]);
+
+    notesContainerEl.append(restrictionNotesEl, restrictionURLEl);
+    $("#covid-data").html(newDiv.append(cityTitle).append(newCasesEl, totalCasesEl, newDeathsEl, totalDeathsEl, restrictionLevelEl, notesContainerEl, lastUpdatedEl));
 }
 
 // fetch call for flight options
@@ -156,11 +164,11 @@ function getTravelOptions(data) {
         var cardTitle = $("<span>").addClass("card-title").text(data.Carriers[i].Name);
 
         // card table
-        var addRow = $("<div>").addClass("row")
+        var addRow = $("<div>").addClass("row");
         var table = $("<table>").addClass("centered highlight blue3");
         var thead = $("<thead>").attr('id', 'thead');
-        var trhead = $("<trhead>").attr('id', 'trhead');
-        var priceTitle = $("<th>").addClass("centered").text("Price");
+        var trhead = $("<tr>").attr('id', 'trhead');
+        var priceTitle = $("<th>").text("Price");
         var directTitle = $("<th>").text("Direct flight");
 
         table.append(thead.append(trhead.append(priceTitle, directTitle)));
@@ -198,15 +206,15 @@ function getTravelOptions(data) {
 }
 
 // add trip to saved trips sidebar on click
-$("#add-trip-btn").on("click", function() {
-    $("div").removeClass("hide");
+$("#add-trip-btn").on("click", function () {
+
 
     var savedTripLi = $("<li>")
     var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
     var fixedInboundDate = new Date(inboundDate).toISOString().split('T')[0];
 
-    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " " + endingLocation + " " +  fixedOutboundDate + " " + fixedInboundDate);
-    
+    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " " + endingLocation + " " + fixedOutboundDate + " " + fixedInboundDate);
+
     // save to saved trip info to an object
     var savedTripObj = {
         outboundCity: startingLocation,
@@ -223,7 +231,7 @@ $("#add-trip-btn").on("click", function() {
     // append saved trip to page
     savedTripLi.append(savedTripLink);
     $(".saved-trips-list").append(savedTripLi);
-    
+
 })
 
 // will load previously saved Trips to page
@@ -234,15 +242,15 @@ var loadSavedTrips = function () {
     if (!savedTrips) {
         $(".saved-trips-list").html("");
         return;
-    } else {    
+    } else {
         // push to saved trips array 
         savedTripsArray = savedTrips;
         console.log(savedTripsArray);
         // create list element for each obj within saved Trips array
-        for (var i=0; i < savedTrips.length; i++) {
+        for (var i = 0; i < savedTrips.length; i++) {
             var savedTripLi = $("<li>")
-            var savedTripLink = $("<a>").attr("href", "#").text(savedTrips[i].outboundCity + " " + savedTrips[i].inboundCity + " " +  savedTrips[i].outboundDate + " " + savedTrips[i].inboundDate);
-            
+            var savedTripLink = $("<a>").attr("href", "#").text(savedTrips[i].outboundCity + " " + savedTrips[i].inboundCity + " " + savedTrips[i].outboundDate + " " + savedTrips[i].inboundDate);
+
             // append saved trip to page
             savedTripLi.append(savedTripLink);
             $(".saved-trips-list").append(savedTripLi);
@@ -256,7 +264,7 @@ $("#clear-trips-btn").on('click', function () {
     loadSavedTrips();
 })
 
-$(".saved-trips-list").on('click', function(event) {
+$(".saved-trips-list").on('click', function (event) {
     event.preventDefault();
     var trip = event.target.text;
     var splitTripInfo = trip.split(" ");

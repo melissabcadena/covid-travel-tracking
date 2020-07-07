@@ -6,7 +6,7 @@ html {
 }
 
 p {
-    line-height: 25px;
+  line-height: 25px;
 }
 
 /* Headings */
@@ -19,10 +19,13 @@ h6 {
   font-family: "Titillium Web", sans-serif;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   margin: 0;
 }
-
 
 /* Color palette */
 :root {
@@ -64,11 +67,11 @@ h1, h2, h3, h4, h5 {
 
 /* Brand Logo */
 nav .brand-logo {
-    position: relative;
+  position: relative;
 }
 
 nav .nav-wrapper {
-    height: auto;
+  height: auto;
 }
 
 .parallax-container {
@@ -105,15 +108,18 @@ input[type="text"].valid {
 }
 
 /* Buttons */
-.btn {
+.btn,
+.btn-floating {
   background-color: var(--blue4);
 }
 
-.btn:hover {
+.btn:hover,
+.btn-floating:hover {
   background-color: var(--blue1);
 }
+
 .btn-flat {
-    color: var(--blue3);
+  color: var(--blue3);
 }
 
 #submit-btn:hover {
@@ -121,40 +127,56 @@ input[type="text"].valid {
 }
 
 /* Date picker */
-.datepicker-date-display, .datepicker-table td.is-selected {
-    background-color: var(--blue2);
+.datepicker-date-display,
+.datepicker-table td.is-selected {
+  background-color: var(--blue2);
 }
 
 .datepicker-table td.is-today {
-    color: var(--blue2)
+  color: var(--blue2);
 }
-
 
 /* Covid Data */
 #covid-data a {
-        color: white;
-        text-decoration: underline;
-    
+  color: white;
+  text-decoration: underline;
 }
 
 /* Saved Trips */
+
 .saved-trips-list a {
-    color: var(--blue3);
+  color: var(--blue3);
+  text-transform: uppercase;
+}
+
+.saved-trips-list a:hover {
+    color: var(--blue1);
+}
+.saved-trips-list li {
+    margin-bottom: 10px;
 }
 
 .delete-saved-trips {
-    padding: 15px;
+  padding: 15px;
 }
 
-
 /* Flight options */
+
+/* Footer */
+.page-footer {
+    padding-top: 0;
+}
+/* Error Handling - Toast */
+
+.toast {
+    background-color: var(--red);
+}
 
 
 /*** MEDIA QUERY FOR MOBILE PHONES AND SMALLER ***/
 /* this will be applied on any screen smaller than 575px */
 @media screen and (max-width: 575px) {
-    .parallax-container {
-        height: 250px;
-    }
-
+  .parallax-container {
+    height: 300px;
+  }
 }
