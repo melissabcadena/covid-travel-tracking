@@ -9,6 +9,10 @@ p {
   line-height: 25px;
 }
 
+hr {
+  border: 1px solid var(--blue3);
+}
+
 /* Headings */
 h1,
 h2,
