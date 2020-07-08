@@ -37,7 +37,11 @@ $("#airport-search-btn").on("click", function (event) {
     var airportCodeSearch = $("#airport-search").val().trim()
     console.log(airportCodeSearch);
 
+    if (airportCodeSearch === "") {
+        M.toast({ html: 'Please enter city or country search criteria' })
+    } else {
     getAirportOptions(airportCodeSearch);
+    }
 });
 
 var getAirportOptions = function (airportCodeSearch) {
@@ -61,7 +65,7 @@ var getAirportOptions = function (airportCodeSearch) {
             };
         })
         .catch(function () {
-            M.toast({ html: 'ERROR: Unable to connect and gather COVID-19 data' })
+            M.toast({ html: 'ERROR: Please update your search information' })
         })
 };
 
@@ -84,15 +88,15 @@ function displayAirportInfo(data) {
     var locationTitle = $("<th>").text("City, Country");
 
     table.append(thead.append(trhead.append(airportCodeTitle, airportNameTitle, locationTitle)));
-    addRow.append(trhead)
+    addRow.append(table)
 
-    newCard.append(addRowairportCode, airportName, cityName);
+    newCard.append(addRow);
     $("#airport-options").append(newCard);
 
     for (var i = 0; i < data.length; i++) {
         var airportName = $("<td>").text(data[i].name);
         var airportCode = $("<td>").text(data[i].code);
-        var cityName = $("<td>").text(data[i].display_title);
+        var cityName = $("<td>").text(data[i].city_name + ", " + data[i].country_code);
         var countryCode = $("<td>").text(data[i].country_code);
         var fullAirportInfo = $("<td>").text(data[i].display_name);
         var tbody = $("<tbody>").attr('id', 'tbody');
@@ -172,6 +176,7 @@ var getTravelAdvice = function () {
 function addCountryData(data) {
     // stop hiding data cards on right side of page
     $("#main-cards").removeClass("hide");
+    $("#airport-code-section").addClass("hide");
 
     var newDiv = $("<div>").addClass("card-content white-text");
     var cityTitle = $("<h2>").addClass("card-title").text(data.Trips[0].LatestStats.country + " " + new Date(data.Trips[0].Date).toISOString().split('T')[0]);
