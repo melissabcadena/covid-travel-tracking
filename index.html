@@ -63,7 +63,7 @@
                 </div>
 
                 <!-- Airport Code Display -->
-                <div id=aiport-code-section class="col s12 l9">
+                <div id=airport-code-section class="hide col s12 l9">
                     <div class="col s12 right" id="airport-codes">
                         <div class="card">
                             <div class="card-content">
@@ -87,12 +87,12 @@
                             <h6>Search round-trip flights by airport codes</h6>
                             <div id="from-city">
                                 <label for="from-city">From:</label>
-                                <input placeholder="City" id="from-city" type="text" class="validate from-city">
+                                <input placeholder="Airport Code" id="from-city" type="text" class="validate from-city">
                             </div>
 
                             <div id="to-city">
                                 <label for="to-city">To:</label>
-                                <input placeholder="City" id="to-city" type="text" class="validate to-city">
+                                <input placeholder="Airport Code" id="to-city" type="text" class="validate to-city">
                             </div>
                             <div>
                                 <label for="outbound-date">Outbound:</label>
@@ -127,31 +127,26 @@
                     </div>
 
                     <!-- Main Cards -->
-                    <div class="hide col s12 l9">
-                        <div class="col s12">
-                            <div class="card blue1" id="covid-data">
-                            </div>
+                <div id="main-cards" class="hide col s12 l9">
+                    <div class="col s12">
+                        <div class="card blue1" id="covid-data">
                         </div>
-                        <div class="col s12 right" id="flight-routes">
+                    </div>
+                    <div class="col s12 right" id="flight-routes">
                             <div class="card">
-                                <div class="card-content">
+                                <div class="card-content" id="flight-card-content">
                                     <span class="card-title">Flight Options</span>
                                     <p>These airlines have the following flight price options</p>
                                 </div>
                                 <div id="flight-options">
                                 </div>
-
+    
                                 <div class="card-action">
-                                    <p><a id="add-trip-btn" class="btn-floating blue3"><i
-                                                class="material-icons">add</i></a>
+                                    <p><a id="add-trip-btn" class="btn-floating blue3"><i class="material-icons">add</i></a>
                                         Add to Saved Trips</a>
                                 </div>
                             </div>
-
-                        </div>
                     </div>
-
-
                 </div>
             </div>
             <div class="parallax-container">

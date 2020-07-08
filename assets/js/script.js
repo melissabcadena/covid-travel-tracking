@@ -66,7 +66,7 @@ var getAirportOptions = function (airportCodeSearch) {
 };
 
 function displayAirportInfo(data) {
-    $("<div>").removeClass("hide");
+    $("#airport-code-section").removeClass("hide");
     // override previous search
     $("#airport-options").text("")
     // loop through all carriers
@@ -84,24 +84,29 @@ function displayAirportInfo(data) {
     var locationTitle = $("<th>").text("City, Country");
 
     table.append(thead.append(trhead.append(airportCodeTitle, airportNameTitle, locationTitle)));
+    addRow.append(trhead)
+
+    newCard.append(addRowairportCode, airportName, cityName);
+    $("#airport-options").append(newCard);
 
     for (var i = 0; i < data.length; i++) {
-        var airportName = data[i].name;
-        var airportCode = data[i].code;
-        var cityName = data[i].display_title;
-        var countryCode = data[i].country_code;
-        var fullAirportInfo = data[i].display_name;
-
+        var airportName = $("<td>").text(data[i].name);
+        var airportCode = $("<td>").text(data[i].code);
+        var cityName = $("<td>").text(data[i].display_title);
+        var countryCode = $("<td>").text(data[i].country_code);
+        var fullAirportInfo = $("<td>").text(data[i].display_name);
+        var tbody = $("<tbody>").attr('id', 'tbody');
+        var trbody = $("<tr>").attr('id', 'trbody');
         
-        addRow.append(table.append(airportCode, airportName, cityName));
 
-        newCard.append(addRow);
-        $("#airport-options").append(newCard);
+        table.append(tbody.append(trbody.append(airportCode, airportName, cityName)));
+    
 
-        // var tbody = $("<tbody>").attr('id', 'tbody');
-        // var trbody = $("<tr>").attr('id', 'trbody');
+        // table.append(thead.append(trhead.append(priceTitle, directTitle)));
+        // addRow.append(table)
 
-        // table.append(tbody.append(trbody.append(airportCode, airportName, cityName)));
+        // newCard.append(cardTitle, addRow);
+        // $("#flight-options").append(newCard);
     };
 };
 
@@ -134,10 +139,6 @@ $("#submit-btn").on("click", function (event) {
         getTravelAdvice();
         getTravelQuotes();
     }
-
-    var googleFlightUrl = ("https://www.google.com/flights?hl=en#flt=" + startingLocation + "." + endingLocation + "." + outboundDate + "*" + endingLocation + "." + startingLocation + "." + inboundDate + ";c:USD;e:1;sd:1;t:f");
-    console.log(googleFlightUrl);
-
 })
 
 
@@ -170,10 +171,10 @@ var getTravelAdvice = function () {
 // load fetched data to page
 function addCountryData(data) {
     // stop hiding data cards on right side of page
-    $("div").removeClass("hide");
+    $("#main-cards").removeClass("hide");
 
     var newDiv = $("<div>").addClass("card-content white-text");
-    var cityTitle = $("<h2>").addClass("card-title").text(data.Trips[0].To + " " + new Date(data.Trips[0].Date).toISOString().split('T')[0]);
+    var cityTitle = $("<h2>").addClass("card-title").text(data.Trips[0].LatestStats.country + " " + new Date(data.Trips[0].Date).toISOString().split('T')[0]);
 
     // get note URL
     var urlRegex = /(https?:\/\/[^ ]*)/;
@@ -229,8 +230,17 @@ var getTravelQuotes = function () {
 
 // load flight options to page
 function getTravelOptions(data) {
+    var googleFlightUrl = ("https://www.google.com/flights?hl=en#flt=" + startingLocation + "." + endingLocation + "." + outboundDate + "*" + endingLocation + "." + startingLocation + "." + inboundDate + ";c:USD;e:1;sd:1;t:f");
+    console.log(googleFlightUrl);
     // override previous search
     $("#flight-options").text("")
+
+    // create link to Google Flight URL
+    var flightUrl = $("<a />").text("Book a flight").attr("href", googleFlightUrl).attr("target", "_blank").addClass("btn waves-effect");
+    var icon = $("<i>").text("airplanemode_active").addClass("material-icons right");
+    flightUrl.append(icon);
+    $("#flight-card-content").append(flightUrl);
+
     // loop through all carriers
     for (var i = 0; i < data.Carriers.length; i++) {
         console.log(data.Carriers[i].Name + ' flight price options:')
@@ -263,6 +273,7 @@ function getTravelOptions(data) {
                     console.log("$" + data.Quotes[j].MinPrice + " Direct: " + data.Quotes[j].Direct)
                     // add prices and direct flight to table
                     var tbody = $("<tbody>").attr('id', 'tbody');
+                    // var link = $("<a>").addClass("waves-effect waves-teal flat-").attr("href", googleFlightUrl);
                     var trbody = $("<tr>").attr('id', 'trbody');
                     var flightPrice = $("<td>").text("$" + data.Quotes[j].MinPrice);
                     var directFlight = $("<td>").attr('id', 'directFlight');
