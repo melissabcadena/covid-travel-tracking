@@ -236,9 +236,7 @@ function getTravelOptions(data) {
     $("#flight-options").text("")
 
     // create link to Google Flight URL
-    var flightUrl = $("<a />").text("Book a flight").attr("href", googleFlightUrl).attr("target", "_blank").addClass("btn waves-effect");
-    var icon = $("<i>").text("airplanemode_active").addClass("material-icons right");
-    flightUrl.append(icon);
+    var flightUrl = $("#flight-btn").attr("href", googleFlightUrl).attr("target", "_blank");
     $("#flight-card-content").append(flightUrl);
 
     // loop through all carriers
@@ -294,7 +292,6 @@ function getTravelOptions(data) {
 // add trip to saved trips sidebar on click
 $("#add-trip-btn").on("click", function () {
 
-
     var savedTripLi = $("<li>")
     var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
     var fixedInboundDate = new Date(inboundDate).toISOString().split('T')[0];
@@ -308,6 +305,8 @@ $("#add-trip-btn").on("click", function () {
         outboundDate: fixedOutboundDate,
         inboundDate: fixedInboundDate
     }
+
+
     // push that to savedTripsArray 
     savedTripsArray.push(savedTripObj);
 
@@ -317,6 +316,8 @@ $("#add-trip-btn").on("click", function () {
     // append saved trip to page
     savedTripLi.append(savedTripLink);
     $(".saved-trips-list").append(savedTripLi);
+
+
 
 })
 
