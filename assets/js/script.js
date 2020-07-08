@@ -72,7 +72,7 @@ var getAirportOptions = function (airportCodeSearch) {
 function displayAirportInfo(data) {
     $("#airport-code-section").removeClass("hide");
     // override previous search
-    $("#airport-options").text("")
+    $("#airport-search").text("")
     // loop through all carriers
 
     // card title
@@ -91,7 +91,7 @@ function displayAirportInfo(data) {
     addRow.append(table)
 
     newCard.append(addRow);
-    $("#airport-options").append(newCard);
+    $("#airport-options").html(newCard);
 
     for (var i = 0; i < data.length; i++) {
         var airportName = $("<td>").text(data[i].name);
@@ -104,13 +104,7 @@ function displayAirportInfo(data) {
         
 
         table.append(tbody.append(trbody.append(airportCode, airportName, cityName)));
-    
 
-        // table.append(thead.append(trhead.append(priceTitle, directTitle)));
-        // addRow.append(table)
-
-        // newCard.append(cardTitle, addRow);
-        // $("#flight-options").append(newCard);
     };
 };
 
@@ -179,7 +173,7 @@ function addCountryData(data) {
     $("#airport-code-section").addClass("hide");
 
     var newDiv = $("<div>").addClass("card-content white-text");
-    var cityTitle = $("<h2>").addClass("card-title").text(data.Trips[0].LatestStats.country + " " + new Date(data.Trips[0].Date).toISOString().split('T')[0]);
+    var cityTitle = $("<h2>").addClass("card-title").text(data.Trips[0].LatestStats.country);
 
     // get note URL
     var urlRegex = /(https?:\/\/[^ ]*)/;
@@ -202,7 +196,7 @@ function addCountryData(data) {
     var notesContainerEl = $("<p>");
     var restrictionNotesEl = $("<span>").text("Notes: " + note);
     var restrictionURLEl = $("<a />").text("More information >").attr("href", url).attr("target", "_blank");
-    var lastUpdatedEl = $("<p>").text("Last Updated: " + new Date(data.Trips[0].LatestStats.date).toISOString().split('T')[0]);
+    var lastUpdatedEl = $("<p>").text("Date of Information: " + new Date(data.Trips[0].LatestStats.date).toISOString().split('T')[0]);
 
     notesContainerEl.append(restrictionNotesEl, restrictionURLEl);
     $("#covid-data").html(newDiv.append(cityTitle).append(newCasesEl, totalCasesEl, newDeathsEl, totalDeathsEl, restrictionLevelEl, notesContainerEl, lastUpdatedEl));
@@ -255,7 +249,7 @@ function getTravelOptions(data) {
         var addRow = $("<div>").addClass("row");
         var table = $("<table>").addClass("centered highlight blue3");
         var thead = $("<thead>").attr('id', 'thead');
-        var trhead = $("<tr>").attr('id', 'trhead');
+        var trhead = $("<tr>").attr('id', 'trhead').attr("href", googleFlightUrl).attr("target", "_blank");
         var priceTitle = $("<th>").text("Price");
         var directTitle = $("<th>").text("Direct flight");
 
