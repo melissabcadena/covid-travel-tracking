@@ -238,7 +238,9 @@ function getTravelOptions(data) {
     var googleFlightUrl = ("https://www.google.com/flights?hl=en#flt=" + startingLocation + "." + endingLocation + "." + outboundDate + "*" + endingLocation + "." + startingLocation + "." + inboundDate + ";c:USD;e:1;sd:1;t:f");
     console.log(googleFlightUrl);
     // override previous search
-    $("#flight-options").text("")
+    $("#flight-options").text("");
+    $("#flight-cities").text(startingLocation + " - " + endingLocation);
+    $("#flight-dates").text(outboundDate + " to " + inboundDate);
 
     // create link to Google Flight URL
     var flightUrl = $("#flight-btn").attr("href", googleFlightUrl).attr("target", "_blank");
