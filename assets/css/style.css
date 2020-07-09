@@ -76,6 +76,11 @@ a {
 a:hover {
   color: white;
 }
+
+.main-section {
+  padding-bottom: 0;
+}
+
 /* Brand Logo */
 nav .brand-logo {
   position: relative;
@@ -89,12 +94,6 @@ nav .nav-wrapper {
 .parallax-container {
   height: 350px;
 }
-
-.bottom-parallax {
-  padding-bottom: 0;
-}
-
-
 
 /* Modal welcome */
 #modal.modal {
@@ -132,7 +131,7 @@ input[type="text"].valid {
   color: var(--blue3);
 }
 
-#submit-btn:hover {
+.submit-button:hover {
   background-color: var(--blue1);
 }
 
@@ -160,10 +159,10 @@ input[type="text"].valid {
 }
 
 .saved-trips-list a:hover {
-    color: var(--blue1);
+  color: var(--blue1);
 }
 .saved-trips-list li {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .delete-saved-trips {
@@ -174,7 +173,7 @@ input[type="text"].valid {
 
 /* Footer */
 .page-footer {
-    padding-top: 0;
+  padding-top: 0;
 }
 
 .footer-links {
@@ -183,25 +182,27 @@ input[type="text"].valid {
 /* Error Handling - Toast */
 
 .toast {
-    background-color: var(--red);
+  background-color: var(--red);
 }
-
 
 /*** MEDIA QUERY FOR MOBILE PHONES AND SMALLER ***/
 
 @media screen and (max-width: 768px) {
-  
   .footer-links {
     float: left;
   }
- 
 }
 
 @media screen and (max-width: 575px) {
   .parallax-container {
     height: 300px;
   }
- 
-  
-}
 
+  .modal-content h4 {
+    font-size: 1.6rem;
+  }
+  .modal-content p {
+    font-size: 14px;
+    line-height: 100%;
+  }
+}

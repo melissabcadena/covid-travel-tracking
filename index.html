@@ -16,7 +16,7 @@
 
 <body>
     <!--Intro Modal-->
-    <!-- <div id="modal" class="modal">
+    <div id="modal" class="modal modal-welcome">
         <div class="modal-content">
             <h4>Welcome to COVID-19 Travel Tracker!</h4>
             <p>Please note: If you have experienced any of the below symptoms, or have been exposed to someone who has
@@ -30,7 +30,7 @@
         <div class="modal-footer">
             <a href="#!" class="modal-action modal-close waves-effect waves-light btn">I understand</a>
         </div>
-    </div> -->
+    </div>
 
     <!--Header/Navbar-->
     <nav class="top-nav">
@@ -44,7 +44,7 @@
         <div class="parallax-container">
             <div class="parallax"><img src="assets/images/covidtracker-herobanner.jpg"></div>
         </div>
-        <div class="section z-depth-2">
+        <div class="section">
             <div class="row">
 
                 <!-- Airport Code Search Bar -->
@@ -57,7 +57,8 @@
                             <input placeholder="Country or City name" id="airport-search" type="text" class="validate">
                         </div>
                     </div>
-                    <a id="airport-search-btn" class="waves-effect waves-light blue4 btn-large col s12">Submit<i
+                    <a id="airport-search-btn"
+                        class="submit-button waves-effect waves-light blue4 btn-large col s12">Submit<i
                             class="material-icons right">send</i></a>
                 </div>
 
@@ -78,7 +79,7 @@
             </div>
         </div>
 
-        <div class="section z-depth-2 bottom-parallax">
+        <div class="section main-section">
             <div class="row">
                 <div class="col s12 l3" id="search-bar">
 
@@ -101,8 +102,10 @@
                             <label for="inbound-date">Inbound:</label>
                             <input type="text" id="inbound-date" placeholder="YYYY-MM-DD" class="datepicker col s12">
                         </div>
-                        <a id="submit-btn" class="waves-effect waves-light blue4 btn-large col s12">Submit<i
+                        <a id="submit-btn"
+                            class="submit-button waves-effect waves-light blue4 btn-large col s12">Submit<i
                                 class="material-icons right">send</i></a>
+
 
                     </div>
                     <!-- Saved Trips -->
@@ -115,9 +118,9 @@
                                 <div class="saved-trips-list collapsible-body">
                                 </div>
                             </li>
-                            <li class="delete-saved-trips"><a id="clear-trips-btn" class="btn-floating blue3"><i
-                                        class="material-icons">delete</i></a>
-                                Clear Saved Trips</a>
+                            <li class="delete-saved-trips">
+                                <a id="clear-trips-btn" class="btn-floating blue3"><i
+                                            class="material-icons">delete</i></a> Clear Saved Trips
                             </li>
                         </ul>
                     </div>
@@ -164,9 +167,9 @@
 
                 <p>
                     <span>&copy;
-                    <script>document.write(new Date().getFullYear());</script>
-                    Copyright - All right reserved
-                </span>
+                        <script>document.write(new Date().getFullYear());</script>
+                        Copyright - All right reserved
+                    </span>
                     <span class="footer-links">Data from following sources:
                         <a href="https://traveladviceapi.com/" target="_blank">TravelAdvice</a> |
                         <a href="https://rapidapi.com/apidojo/api/tripadvisor1" target="_blank">TripAdvisor</a> |
