@@ -11,14 +11,14 @@
         rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 
-    <title>Covid Travel Tracker</title>
+    <title>COVID-19 Travel Tracker</title>
 </head>
 
 <body>
     <!--Intro Modal-->
-    <div id="modal" class="modal">
+    <div id="modal" class="modal modal-welcome">
         <div class="modal-content">
-            <h4>Welcome to COVID Travel Tracker!</h4>
+            <h4>Welcome to COVID-19 Travel Tracker!</h4>
             <p>Please note: If you have experienced any of the below symptoms, or have been exposed to someone who has
                 tested positive for COVID-19, the CDC recommends staying home for 14 days. Please reconsider traveling
                 during this time. </p>
@@ -28,14 +28,14 @@
             <p>If you believe you may have been exposed to COVID-19, please contact your healthcare provider.</p>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-action modal-close waves-effect waves-light btn">Continue</a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-light btn">I understand</a>
         </div>
     </div>
 
     <!--Header/Navbar-->
     <nav class="top-nav">
         <div class="nav-wrapper blue3">
-            <h1><a href="./index.html" class="brand-logo center">COVID Travel Tracker</a></h1>
+            <h1><a href="./index.html" class="brand-logo center">COVID-19 Travel Tracker</a></h1>
         </div>
     </nav>
 
@@ -44,8 +44,8 @@
         <div class="parallax-container">
             <div class="parallax"><img src="assets/images/covidtracker-herobanner.jpg"></div>
         </div>
-        <div class="section z-depth-2">
-            <div class="row container">
+        <div class="section">
+            <div class="row">
 
                 <!-- Airport Code Search Bar -->
                 <div class="col s12 l3" id="airport-code-search">
@@ -57,7 +57,8 @@
                             <input placeholder="Country or City name" id="airport-search" type="text" class="validate">
                         </div>
                     </div>
-                    <a id="airport-search-btn" class="waves-effect waves-light blue4 btn-large col s12">Submit<i
+                    <a id="airport-search-btn"
+                        class="submit-button waves-effect waves-light blue4 btn-large col s12">Submit<i
                             class="material-icons right">send</i></a>
                 </div>
 
@@ -78,8 +79,8 @@
             </div>
         </div>
 
-        <div class="section z-depth-2">
-            <div class="row container">
+        <div class="section main-section">
+            <div class="row">
                 <div class="col s12 l3" id="search-bar">
 
                     <div class="input-field col s12">
@@ -101,8 +102,10 @@
                             <label for="inbound-date">Inbound:</label>
                             <input type="text" id="inbound-date" placeholder="YYYY-MM-DD" class="datepicker col s12">
                         </div>
-                        <a id="submit-btn" class="waves-effect waves-light blue4 btn-large col s12">Submit<i
+                        <a id="submit-btn"
+                            class="submit-button waves-effect waves-light blue4 btn-large col s12">Submit<i
                                 class="material-icons right">send</i></a>
+
 
                     </div>
                     <!-- Saved Trips -->
@@ -115,9 +118,9 @@
                                 <div class="saved-trips-list collapsible-body">
                                 </div>
                             </li>
-                            <li class="delete-saved-trips"><a id="clear-trips-btn" class="btn-floating blue3"><i
-                                        class="material-icons">delete</i></a>
-                                Clear Saved Trips</a>
+                            <li class="delete-saved-trips">
+                                <a id="clear-trips-btn" class="btn-floating blue3"><i
+                                            class="material-icons">delete</i></a> Clear Saved Trips
                             </li>
                         </ul>
                     </div>
@@ -132,13 +135,16 @@
                     <div class="col s12 right" id="flight-routes">
                         <div class="card">
                             <div class="card-content" id="flight-card-content">
-                                <span class="card-title">Flight Options</span>
-                                <p>These airlines have the following flight price options</p>
-                                <a target="_blank" class="btn waves-effect" id="flight-btn"><i
-                                        class="material-icons right">airplanemode_active</i>Book a flight</a>
+                                <h5 class="card-title" id="flight-cities"></h5>
+                                <h6 class="card-title flow-text" id="flight-dates"></h6>
+                                <hr>
+                                <span class="card-title">Flight Options <i
+                                    class="material-icons">airplanemode_active</i></span>
+                                <p>Select an airline to view the following flight price options</p>
                             </div>
-                            <div id="flight-options">
-                            </div>
+                            <ul class="collapsible" id="flight-options">
+                            </ul>
+
 
                             <div class="card-action">
                                 <p><a id="add-trip-btn" class="btn-floating blue3"><i class="material-icons">add</i></a>
@@ -151,26 +157,26 @@
             <div class="parallax-container">
                 <div class="parallax"><img src="assets/images/corona-virus.jpg"></div>
             </div>
+        </div>
 
     </main>
-
-
 
     <footer class="page-footer blue3">
         <div class="footer-copyright">
             <div class="container white-text">
-                &copy;
-                <script>document.write(new Date().getFullYear());</script>
-                Copyright - All right reserved
-                <div class="grey-text text-lighten-4 right">
-                    <p>Data from following sources: </p>
-                    <a href="https://traveladviceapi.com/"
-                        target="_blank">TravelAdvice</a> |
-                    <a href="https://rapidapi.com/apidojo/api/tripadvisor1"
-                        target="_blank">TripAdvisor</a> | 
-                    <a href="https://rapidapi.com/user/skyscanner"
-                        target="_blank">SkyScanner</a>
-                </div>
+
+                <p>
+                    <span>&copy;
+                        <script>document.write(new Date().getFullYear());</script>
+                        Copyright - All rights reserved
+                    </span>
+                    <span class="footer-links">Data from following sources:
+                        <a href="https://traveladviceapi.com/" target="_blank">TravelAdvice</a> |
+                        <a href="https://rapidapi.com/apidojo/api/tripadvisor1" target="_blank">TripAdvisor</a> |
+                        <a href="https://rapidapi.com/user/skyscanner" target="_blank">SkyScanner</a>
+                    </span>
+
+                </p>
             </div>
         </div>
     </footer>

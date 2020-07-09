@@ -1,3 +1,25 @@
+// setting global variables
+var startingLocation = "";
+var endingLocation = "";
+var outboundDate = "";
+var inboundDate = "";
+var savedTripsArray = [];
+var currentDate = new Date();
+console.log(currentDate);
+
+// function to add mo to current date
+function addMonths(date, months) {
+    var d = date.getDate();
+    date.setMonth(date.getMonth() + +months);
+    if (date.getDate() != d) {
+      date.setDate(0);
+    }
+    return date;
+  }
+
+var sixMoAhead = addMonths(currentDate, 6);
+console.log(currentDate, sixMoAhead);
+
 $(document).ready(function () {
     $(".parallax").parallax();
 });
@@ -8,6 +30,7 @@ $(document).ready(function () {
     $(".datepicker").datepicker({
         autoClose: true,
         minDate: new Date(),
+        maxDate: sixMoAhead,
         format: "yyyy-mm-dd"
     });
 });
@@ -15,14 +38,6 @@ $(document).ready(function () {
 $(document).ready(function () {
     $(".collapsible").collapsible();
 });
-
-
-// setting global variables
-var startingLocation = "";
-var endingLocation = "";
-var outboundDate = "";
-var inboundDate = "";
-var savedTripsArray = [];
 
 // Display intro modal on load
 $(document).ready(function () {
@@ -72,7 +87,7 @@ var getAirportOptions = function (airportCodeSearch) {
 function displayAirportInfo(data) {
     $("#airport-code-section").removeClass("hide");
     // override previous search
-    $("#airport-options").text("")
+    $("#airport-search").text("")
     // loop through all carriers
 
     // card title
@@ -91,7 +106,7 @@ function displayAirportInfo(data) {
     addRow.append(table)
 
     newCard.append(addRow);
-    $("#airport-options").append(newCard);
+    $("#airport-options").html(newCard);
 
     for (var i = 0; i < data.length; i++) {
         var airportName = $("<td>").text(data[i].name);
@@ -104,13 +119,7 @@ function displayAirportInfo(data) {
         
 
         table.append(tbody.append(trbody.append(airportCode, airportName, cityName)));
-    
 
-        // table.append(thead.append(trhead.append(priceTitle, directTitle)));
-        // addRow.append(table)
-
-        // newCard.append(cardTitle, addRow);
-        // $("#flight-options").append(newCard);
     };
 };
 
@@ -127,13 +136,16 @@ $("#submit-btn").on("click", function (event) {
 
     // check for empty inputs
     if (startingLocation === "" || endingLocation === "") {
-        M.toast({ html: 'Please select your locations' })
+        M.toast({ html: 'Please select your locations.' })
     }
     if (outboundDate === "" || inboundDate === "") {
-        M.toast({ html: 'Please select your dates' })
+        M.toast({ html: 'Please select your dates.' })
     }
     if (inboundDate < outboundDate) {
-        M.toast({ html: 'Inbound date must be after outbound date' })
+        M.toast({ html: 'Inbound date must be after outbound date.' })
+    }
+    if (inboundDate === outboundDate) {
+        M.toast({ html: 'Outbound and inbound date cannot be the same date.' })
     }
     if ((startingLocation != "") &
         (endingLocation != "") &
@@ -165,10 +177,9 @@ var getTravelAdvice = function () {
                     console.log(data);
                     addCountryData(data);
                 });
+            } else {
+                M.toast({ html: 'ERROR: Unable to connect and gather data. Please ensure you are searching by valid airport codes.'});
             }
-        })
-        .catch(function () {
-            M.toast({ html: 'ERROR: Unable to connect and gather COVID-19 data' })
         })
 }
 
@@ -179,7 +190,7 @@ function addCountryData(data) {
     $("#airport-code-section").addClass("hide");
 
     var newDiv = $("<div>").addClass("card-content white-text");
-    var cityTitle = $("<h2>").addClass("card-title").text(data.Trips[0].LatestStats.country + " " + new Date(data.Trips[0].Date).toISOString().split('T')[0]);
+    var cityTitle = $("<h2>").addClass("card-title").text(data.Trips[0].LatestStats.country);
 
     // get note URL
     var urlRegex = /(https?:\/\/[^ ]*)/;
@@ -198,11 +209,22 @@ function addCountryData(data) {
     var totalCasesEl = $("<p>").text("Total Cases: " + totalCases);
     var newDeathsEl = $("<p>").text("New Deaths: " + newDeaths);
     var totalDeathsEl = $("<p>").text("Total Deaths: " + totalDeaths);
-    var restrictionLevelEl = $("<p>").text("Restriction Level: " + data.Trips[0].Advice.News.Recommendation);
+    var restrictionLevelEl = $("<p>").text("Restriction " + data.Trips[0].Advice.News.Recommendation);
     var notesContainerEl = $("<p>");
     var restrictionNotesEl = $("<span>").text("Notes: " + note);
     var restrictionURLEl = $("<a />").text("More information >").attr("href", url).attr("target", "_blank");
-    var lastUpdatedEl = $("<p>").text("Last Updated: " + new Date(data.Trips[0].LatestStats.date).toISOString().split('T')[0]);
+    var lastUpdatedEl = $("<p>").text("Date of Information: " + new Date(data.Trips[0].LatestStats.date).toISOString().split('T')[0]);
+    var levelAlert = data.Trips[0].Advice.Level.Level;
+
+  if (levelAlert === 1) {
+      restrictionLevelEl.addClass("green black-text");
+    } else if (levelAlert === 2) {
+      restrictionLevelEl.addClass("yellow black-text");
+    } else if (levelAlert === 3) {
+      restrictionLevelEl.addClass("orange");
+    } else if (levelAlert === 4) {
+      restrictionLevelEl.addClass("red");  
+    } 
 
     notesContainerEl.append(restrictionNotesEl, restrictionURLEl);
     $("#covid-data").html(newDiv.append(cityTitle).append(newCasesEl, totalCasesEl, newDeathsEl, totalDeathsEl, restrictionLevelEl, notesContainerEl, lastUpdatedEl));
@@ -226,7 +248,10 @@ var getTravelQuotes = function () {
                     console.log(data);
                     getTravelOptions(data);
                 });
-            };
+            } else {
+                M.toast({ html: 'ERROR: Unable to gather data. Please ensure you are searching by valid airport codes.'});
+                return; 
+            }
         })
         .catch(function () {
             M.toast({ html: 'ERROR: Unable to connect and gather flight routes' })
@@ -237,22 +262,25 @@ var getTravelQuotes = function () {
 function getTravelOptions(data) {
     var googleFlightUrl = ("https://www.google.com/flights?hl=en#flt=" + startingLocation + "." + endingLocation + "." + outboundDate + "*" + endingLocation + "." + startingLocation + "." + inboundDate + ";c:USD;e:1;sd:1;t:f");
     console.log(googleFlightUrl);
-    // override previous search
-    $("#flight-options").text("")
 
-    // create link to Google Flight URL
-    var flightUrl = $("#flight-btn").attr("href", googleFlightUrl).attr("target", "_blank");
-    $("#flight-card-content").append(flightUrl);
+    
+    // override previous search
+    $("#flight-options").html("");
+    $("#flight-cities").text((startingLocation.toUpperCase()) + " - " + (endingLocation.toUpperCase()));
+    $("#flight-dates").text(outboundDate + " to " + inboundDate);
 
     // loop through all carriers
     for (var i = 0; i < data.Carriers.length; i++) {
-        console.log(data.Carriers[i].Name + ' flight price options:')
-        // card title
-        var newCard = $("<div>").addClass("card card-content blue3 white-text");
-        var cardTitle = $("<span>").addClass("card-title").text(data.Carriers[i].Name);
+        console.log(data.Carriers[i].Name + ' flight price options:');
 
-        // card table
-        var addRow = $("<div>").addClass("row");
+        var listItem = $("<li>").addClass("white-text blue3")
+        var airlineTitle = $("<div>").addClass("collapsible-header blue3");
+        var airlineName = $("<h5>").text(data.Carriers[i].Name);
+        var icon = $("<i>").addClass("material-icons right").text("arrow_drop_down")
+        airlineName.append(icon);
+        airlineTitle.append(airlineName);
+
+        var airlineBody = $("<div>").addClass("collapsible-body");
         var table = $("<table>").addClass("centered highlight blue3");
         var thead = $("<thead>").attr('id', 'thead');
         var trhead = $("<tr>").attr('id', 'trhead');
@@ -260,10 +288,10 @@ function getTravelOptions(data) {
         var directTitle = $("<th>").text("Direct flight");
 
         table.append(thead.append(trhead.append(priceTitle, directTitle)));
-        addRow.append(table)
+        airlineBody.append(table);
+        listItem.append(airlineTitle,airlineBody);
+        $("#flight-options").append(listItem);
 
-        newCard.append(cardTitle, addRow);
-        $("#flight-options").append(newCard);
 
         var priceList = [];
         // loop through all quotes
@@ -276,7 +304,6 @@ function getTravelOptions(data) {
                     console.log("$" + data.Quotes[j].MinPrice + " Direct: " + data.Quotes[j].Direct)
                     // add prices and direct flight to table
                     var tbody = $("<tbody>").attr('id', 'tbody');
-                    // var link = $("<a>").addClass("waves-effect waves-teal flat-").attr("href", googleFlightUrl);
                     var trbody = $("<tr>").attr('id', 'trbody');
                     var flightPrice = $("<td>").text("$" + data.Quotes[j].MinPrice);
                     var directFlight = $("<td>").attr('id', 'directFlight');
@@ -288,6 +315,13 @@ function getTravelOptions(data) {
                 }
 
                 table.append(tbody.append(trbody.append(flightPrice, directFlight)));
+                
+                $(document).ready(function() {
+                $("tbody").click(function() {
+                    $(this).attr("href");
+                    window.open(googleFlightUrl,'_blank');
+                    });
+                });
             }
         }
     }
@@ -311,18 +345,19 @@ $("#add-trip-btn").on("click", function () {
         inboundDate: fixedInboundDate
     }
 
+    console.log(savedTripsArray)
+    if(!savedTripsArray.includes(savedTripObj)){
+        // push that to savedTripsArray 
+        savedTripsArray.push(savedTripObj);
 
-    // push that to savedTripsArray 
-    savedTripsArray.push(savedTripObj);
+        // save to local storage 
+        localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
 
-    // save to local storage 
-    localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
-
-    // append saved trip to page
-    savedTripLi.append(savedTripLink);
-    $(".saved-trips-list").append(savedTripLi);
-
-
+        // append saved trip to page
+        savedTripLi.append(savedTripLink);
+        $(".saved-trips-list").append(savedTripLi);
+        console.log(savedTripsArray)
+    }
 
 })
 
