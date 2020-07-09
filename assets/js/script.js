@@ -254,19 +254,20 @@ function getTravelOptions(data) {
 
     
     // override previous search
-    $("#flight-options").text("");
+    $("#flight-options").html("");
     $("#flight-cities").text((startingLocation.toUpperCase()) + " - " + (endingLocation.toUpperCase()));
     $("#flight-dates").text(outboundDate + " to " + inboundDate);
 
     // loop through all carriers
     for (var i = 0; i < data.Carriers.length; i++) {
-        console.log(data.Carriers[i].Name + ' flight price options:')
-        // card title
-        var newCard = $("<div>").addClass("card card-content blue3 white-text");
-        var cardTitle = $("<span>").addClass("card-title").text(data.Carriers[i].Name);
+        console.log(data.Carriers[i].Name + ' flight price options:');
 
-        // card table
-        var addRow = $("<div>").addClass("row");
+        var listItem = $("<li>")
+        var airlineTitle = $("<div>").addClass("collapsible-header");
+        var airlineName = $("<h5>").text(data.Carriers[i].Name);
+        airlineTitle.append(airlineName);
+
+        var airlineBody = $("<div>").addClass("collapsible-body");
         var table = $("<table>").addClass("centered highlight blue3");
         var thead = $("<thead>").attr('id', 'thead');
         var trhead = $("<tr>").attr('id', 'trhead');
@@ -274,10 +275,10 @@ function getTravelOptions(data) {
         var directTitle = $("<th>").text("Direct flight");
 
         table.append(thead.append(trhead.append(priceTitle, directTitle)));
-        addRow.append(table)
+        airlineBody.append(table);
+        listItem.append(airlineTitle,airlineBody);
+        $("#flight-options").append(listItem);
 
-        newCard.append(cardTitle, addRow);
-        $("#flight-options").append(newCard);
 
         var priceList = [];
         // loop through all quotes
@@ -331,6 +332,7 @@ $("#add-trip-btn").on("click", function () {
         inboundDate: fixedInboundDate
     }
 
+    console.log(savedTripsArray)
     if(!savedTripsArray.includes(savedTripObj)){
         // push that to savedTripsArray 
         savedTripsArray.push(savedTripObj);
@@ -341,11 +343,8 @@ $("#add-trip-btn").on("click", function () {
         // append saved trip to page
         savedTripLi.append(savedTripLink);
         $(".saved-trips-list").append(savedTripLi);
+        console.log(savedTripsArray)
     }
-
-
-
-
 
 })
 
