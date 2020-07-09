@@ -258,10 +258,6 @@ function getTravelOptions(data) {
     $("#flight-cities").text((startingLocation.toUpperCase()) + " - " + (endingLocation.toUpperCase()));
     $("#flight-dates").text(outboundDate + " to " + inboundDate);
 
-    // create link to Google Flight URL
-    var flightUrl = $("#flight-btn").attr("href", googleFlightUrl).attr("target", "_blank");
-    $("#flight-card-content").append(flightUrl);
-
     // loop through all carriers
     for (var i = 0; i < data.Carriers.length; i++) {
         console.log(data.Carriers[i].Name + ' flight price options:')
@@ -335,15 +331,19 @@ $("#add-trip-btn").on("click", function () {
         inboundDate: fixedInboundDate
     }
 
-    // push that to savedTripsArray 
-    savedTripsArray.push(savedTripObj);
+    if(!savedTripsArray.includes(savedTripObj)){
+        // push that to savedTripsArray 
+        savedTripsArray.push(savedTripObj);
 
-    // save to local storage 
-    localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
+        // save to local storage 
+        localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
 
-    // append saved trip to page
-    savedTripLi.append(savedTripLink);
-    $(".saved-trips-list").append(savedTripLi);
+        // append saved trip to page
+        savedTripLi.append(savedTripLink);
+        $(".saved-trips-list").append(savedTripLi);
+    }
+
+
 
 
 
