@@ -262,8 +262,8 @@ function getTravelOptions(data) {
     for (var i = 0; i < data.Carriers.length; i++) {
         console.log(data.Carriers[i].Name + ' flight price options:');
 
-        var listItem = $("<li>")
-        var airlineTitle = $("<div>").addClass("collapsible-header");
+        var listItem = $("<li>").addClass("white-text blue3")
+        var airlineTitle = $("<div>").addClass("collapsible-header blue3");
         var airlineName = $("<h5>").text(data.Carriers[i].Name);
         airlineTitle.append(airlineName);
 
