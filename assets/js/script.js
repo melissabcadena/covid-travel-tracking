@@ -231,6 +231,8 @@ var getTravelQuotes = function () {
 function getTravelOptions(data) {
     var googleFlightUrl = ("https://www.google.com/flights?hl=en#flt=" + startingLocation + "." + endingLocation + "." + outboundDate + "*" + endingLocation + "." + startingLocation + "." + inboundDate + ";c:USD;e:1;sd:1;t:f");
     console.log(googleFlightUrl);
+
+    
     // override previous search
     $("#flight-options").text("");
     $("#flight-cities").text(startingLocation + " - " + endingLocation);
@@ -251,7 +253,7 @@ function getTravelOptions(data) {
         var addRow = $("<div>").addClass("row");
         var table = $("<table>").addClass("centered highlight blue3");
         var thead = $("<thead>").attr('id', 'thead');
-        var trhead = $("<tr>").attr('id', 'trhead').attr("href", googleFlightUrl).attr("target", "_blank");
+        var trhead = $("<tr>").attr('id', 'trhead');
         var priceTitle = $("<th>").text("Price");
         var directTitle = $("<th>").text("Direct flight");
 
@@ -272,7 +274,6 @@ function getTravelOptions(data) {
                     console.log("$" + data.Quotes[j].MinPrice + " Direct: " + data.Quotes[j].Direct)
                     // add prices and direct flight to table
                     var tbody = $("<tbody>").attr('id', 'tbody');
-                    // var link = $("<a>").addClass("waves-effect waves-teal flat-").attr("href", googleFlightUrl);
                     var trbody = $("<tr>").attr('id', 'trbody');
                     var flightPrice = $("<td>").text("$" + data.Quotes[j].MinPrice);
                     var directFlight = $("<td>").attr('id', 'directFlight');
@@ -284,6 +285,13 @@ function getTravelOptions(data) {
                 }
 
                 table.append(tbody.append(trbody.append(flightPrice, directFlight)));
+                
+                $(document).ready(function() {
+                $("tbody").click(function() {
+                    $(this).attr("href");
+                    window.open(googleFlightUrl,'_blank');
+                    });
+                });
             }
         }
     }
