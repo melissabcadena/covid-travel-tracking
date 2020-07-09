@@ -265,6 +265,8 @@ function getTravelOptions(data) {
         var listItem = $("<li>").addClass("white-text blue3")
         var airlineTitle = $("<div>").addClass("collapsible-header blue3");
         var airlineName = $("<h5>").text(data.Carriers[i].Name);
+        var icon = $("<i>").addClass("material-icons right").text("arrow_drop_down")
+        airlineName.append(icon);
         airlineTitle.append(airlineName);
 
         var airlineBody = $("<div>").addClass("collapsible-body");
