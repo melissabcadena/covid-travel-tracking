@@ -305,39 +305,33 @@ function getTravelOptions(data) {
 
 // add trip to saved trips sidebar on click
 $("#add-trip-btn").on("click", function () {
+
+    var savedTripLi = $("<li>")
     var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
     var fixedInboundDate = new Date(inboundDate).toISOString().split('T')[0];
 
-    for (var i = 0; i < savedTripsArray.length; i++) {
-        // check if this trip has already been saved
-        if (
-            savedTripsArray[i].outboundCity === startingLocation &&
-            savedTripsArray[i].inboundCity === endingLocation &&
-            savedTripsArray[i].outboundDate === fixedOutboundDate &&
-            savedTripsArray[i].inboundDate === fixedInboundDate
-        ) {
-            M.toast({ html: 'This trip has already been saved!' })
-        } else {
-            var savedTripLi = $("<li>")
-            var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " " + endingLocation + " " + fixedOutboundDate + " " + fixedInboundDate);
+    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " " + endingLocation + " " + fixedOutboundDate + " " + fixedInboundDate);
 
-            // save to saved trip info to an object
-            var savedTripObj = {
-                outboundCity: startingLocation,
-                inboundCity: endingLocation,
-                outboundDate: fixedOutboundDate,
-                inboundDate: fixedInboundDate
-            }
-            // push that to savedTripsArray 
-            savedTripsArray.push(savedTripObj);
+    // save to saved trip info to an object
+    var savedTripObj = {
+        outboundCity: startingLocation,
+        inboundCity: endingLocation,
+        outboundDate: fixedOutboundDate,
+        inboundDate: fixedInboundDate
+    }
 
-            // save to local storage 
-            localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
+    // push that to savedTripsArray 
+    savedTripsArray.push(savedTripObj);
 
-            // append saved trip to page
-            savedTripLi.append(savedTripLink);
-        }
-    }    
+    // save to local storage 
+    localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
+
+    // append saved trip to page
+    savedTripLi.append(savedTripLink);
+    $(".saved-trips-list").append(savedTripLi);
+
+
+
 })
 
 // will load previously saved Trips to page
@@ -350,9 +344,8 @@ var loadSavedTrips = function () {
         return;
     } else {
         // push to saved trips array 
-        savedTripsArray.push(savedTrips);
-        console.log("savedTripsArray", savedTripsArray);
-        console.log("savedTrips", savedTrips);
+        savedTripsArray = savedTrips;
+        console.log(savedTripsArray);
         // create list element for each obj within saved Trips array
         for (var i = 0; i < savedTrips.length; i++) {
             var savedTripLi = $("<li>")
