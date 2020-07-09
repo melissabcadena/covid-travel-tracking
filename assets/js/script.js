@@ -209,11 +209,22 @@ function addCountryData(data) {
     var totalCasesEl = $("<p>").text("Total Cases: " + totalCases);
     var newDeathsEl = $("<p>").text("New Deaths: " + newDeaths);
     var totalDeathsEl = $("<p>").text("Total Deaths: " + totalDeaths);
-    var restrictionLevelEl = $("<p>").text("Restriction Level: " + data.Trips[0].Advice.News.Recommendation);
+    var restrictionLevelEl = $("<p>").text("Restriction " + data.Trips[0].Advice.News.Recommendation);
     var notesContainerEl = $("<p>");
     var restrictionNotesEl = $("<span>").text("Notes: " + note);
     var restrictionURLEl = $("<a />").text("More information >").attr("href", url).attr("target", "_blank");
     var lastUpdatedEl = $("<p>").text("Date of Information: " + new Date(data.Trips[0].LatestStats.date).toISOString().split('T')[0]);
+    var levelAlert = data.Trips[0].Advice.Level.Level;
+
+  if (levelAlert === 1) {
+      restrictionLevelEl.addClass("green black-text");
+    } else if (levelAlert === 2) {
+      restrictionLevelEl.addClass("yellow black-text");
+    } else if (levelAlert === 3) {
+      restrictionLevelEl.addClass("orange");
+    } else if (levelAlert === 4) {
+      restrictionLevelEl.addClass("red");  
+    } 
 
     notesContainerEl.append(restrictionNotesEl, restrictionURLEl);
     $("#covid-data").html(newDiv.append(cityTitle).append(newCasesEl, totalCasesEl, newDeathsEl, totalDeathsEl, restrictionLevelEl, notesContainerEl, lastUpdatedEl));
