@@ -127,13 +127,16 @@ $("#submit-btn").on("click", function (event) {
 
     // check for empty inputs
     if (startingLocation === "" || endingLocation === "") {
-        M.toast({ html: 'Please select your locations' })
+        M.toast({ html: 'Please select your locations.' })
     }
     if (outboundDate === "" || inboundDate === "") {
-        M.toast({ html: 'Please select your dates' })
+        M.toast({ html: 'Please select your dates.' })
     }
     if (inboundDate < outboundDate) {
-        M.toast({ html: 'Inbound date must be after outbound date' })
+        M.toast({ html: 'Inbound date must be after outbound date.' })
+    }
+    if (inboundDate === outboundDate) {
+        M.toast({ html: 'Outbound and inbound date cannot be the same date.' })
     }
     if ((startingLocation != "") &
         (endingLocation != "") &
@@ -165,10 +168,9 @@ var getTravelAdvice = function () {
                     console.log(data);
                     addCountryData(data);
                 });
+            } else {
+                M.toast({ html: 'ERROR: Unable to connect and gather data. Please ensure you are searching by valid airport codes.'});
             }
-        })
-        .catch(function () {
-            M.toast({ html: 'ERROR: Unable to connect and gather COVID-19 data' })
         })
 }
 
@@ -226,7 +228,10 @@ var getTravelQuotes = function () {
                     console.log(data);
                     getTravelOptions(data);
                 });
-            };
+            } else {
+                M.toast({ html: 'ERROR: Unable to gather data. Please ensure you are searching by valid airport codes.'});
+                return; 
+            }
         })
         .catch(function () {
             M.toast({ html: 'ERROR: Unable to connect and gather flight routes' })
@@ -239,7 +244,7 @@ function getTravelOptions(data) {
     console.log(googleFlightUrl);
     // override previous search
     $("#flight-options").text("");
-    $("#flight-cities").text(startingLocation + " - " + endingLocation);
+    $("#flight-cities").text((startingLocation.toUpperCase()) + " - " + (endingLocation.toUpperCase()));
     $("#flight-dates").text(outboundDate + " to " + inboundDate);
 
     // create link to Google Flight URL
@@ -298,34 +303,30 @@ function getTravelOptions(data) {
 
 // add trip to saved trips sidebar on click
 $("#add-trip-btn").on("click", function () {
+            var savedTripLi = $("<li>")
+            var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
+            var fixedInboundDate = new Date(inboundDate).toISOString().split('T')[0];
 
-    var savedTripLi = $("<li>")
-    var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
-    var fixedInboundDate = new Date(inboundDate).toISOString().split('T')[0];
+            var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " " + endingLocation + " " + fixedOutboundDate + " " + fixedInboundDate);
 
-    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " " + endingLocation + " " + fixedOutboundDate + " " + fixedInboundDate);
+            // save to saved trip info to an object
+            var savedTripObj = {
+                outboundCity: startingLocation,
+                inboundCity: endingLocation,
+                outboundDate: fixedOutboundDate,
+                inboundDate: fixedInboundDate
+            }
+            // push that to savedTripsArray 
+            savedTripsArray.push(savedTripObj);
 
-    // save to saved trip info to an object
-    var savedTripObj = {
-        outboundCity: startingLocation,
-        inboundCity: endingLocation,
-        outboundDate: fixedOutboundDate,
-        inboundDate: fixedInboundDate
+            // save to local storage 
+            localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
+
+            // append saved trip to page
+            savedTripLi.append(savedTripLink);
+        }
     }
-
-
-    // push that to savedTripsArray 
-    savedTripsArray.push(savedTripObj);
-
-    // save to local storage 
-    localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
-
-    // append saved trip to page
-    savedTripLi.append(savedTripLink);
-    $(".saved-trips-list").append(savedTripLi);
-
-
-
+        
 })
 
 // will load previously saved Trips to page
