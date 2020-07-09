@@ -69,6 +69,13 @@ h5 {
   font-weight: bold;
 }
 
+a {
+  color: var(--blue2);
+}
+
+a:hover {
+  color: white;
+}
 /* Brand Logo */
 nav .brand-logo {
   position: relative;
@@ -78,17 +85,16 @@ nav .nav-wrapper {
   height: auto;
 }
 
+/* Parallax  */
 .parallax-container {
   height: 350px;
 }
 
-/* .plane {
-  height: 350px;
+.bottom-parallax {
+  padding-bottom: 0;
 }
 
-.covidimg {
-  height: 250px;
-} */
+
 
 /* Modal welcome */
 #modal.modal {
@@ -170,6 +176,10 @@ input[type="text"].valid {
 .page-footer {
     padding-top: 0;
 }
+
+.footer-links {
+  float: right;
+}
 /* Error Handling - Toast */
 
 .toast {
@@ -178,9 +188,20 @@ input[type="text"].valid {
 
 
 /*** MEDIA QUERY FOR MOBILE PHONES AND SMALLER ***/
-/* this will be applied on any screen smaller than 575px */
+
+@media screen and (max-width: 768px) {
+  
+  .footer-links {
+    float: left;
+  }
+ 
+}
+
 @media screen and (max-width: 575px) {
   .parallax-container {
     height: 300px;
   }
+ 
+  
 }
+
