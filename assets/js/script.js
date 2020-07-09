@@ -1,3 +1,25 @@
+// setting global variables
+var startingLocation = "";
+var endingLocation = "";
+var outboundDate = "";
+var inboundDate = "";
+var savedTripsArray = [];
+var currentDate = new Date();
+console.log(currentDate);
+
+// function to add mo to current date
+function addMonths(date, months) {
+    var d = date.getDate();
+    date.setMonth(date.getMonth() + +months);
+    if (date.getDate() != d) {
+      date.setDate(0);
+    }
+    return date;
+  }
+
+var sixMoAhead = addMonths(currentDate, 6);
+console.log(currentDate, sixMoAhead);
+
 $(document).ready(function () {
     $(".parallax").parallax();
 });
@@ -8,6 +30,7 @@ $(document).ready(function () {
     $(".datepicker").datepicker({
         autoClose: true,
         minDate: new Date(),
+        maxDate: sixMoAhead,
         format: "yyyy-mm-dd"
     });
 });
@@ -15,14 +38,6 @@ $(document).ready(function () {
 $(document).ready(function () {
     $(".collapsible").collapsible();
 });
-
-
-// setting global variables
-var startingLocation = "";
-var endingLocation = "";
-var outboundDate = "";
-var inboundDate = "";
-var savedTripsArray = [];
 
 // Display intro modal on load
 $(document).ready(function () {
