@@ -5,7 +5,6 @@ var outboundDate = "";
 var inboundDate = "";
 var savedTripsArray = [];
 var currentDate = new Date();
-console.log(currentDate);
 
 // function to add mo to current date
 function addMonths(date, months) {
@@ -18,7 +17,6 @@ function addMonths(date, months) {
   }
 
 var sixMoAhead = addMonths(currentDate, 6);
-console.log(currentDate, sixMoAhead);
 
 $(document).ready(function () {
     $(".parallax").parallax();
@@ -48,10 +46,9 @@ $(document).ready(function () {
 // get search term when airport code search is submitted
 $("#airport-search-btn").on("click", function (event) {
     event.preventDefault();
-
+    // get value submitted by user
     var airportCodeSearch = $("#airport-search").val().trim()
-    console.log(airportCodeSearch);
-
+    // if blank
     if (airportCodeSearch === "") {
         M.toast({ html: 'Please enter city or country search criteria' })
     } else {
@@ -59,6 +56,7 @@ $("#airport-search-btn").on("click", function (event) {
     }
 });
 
+// fetch call for airport codes
 var getAirportOptions = function (airportCodeSearch) {
 
     var myHeaders = new Headers();
@@ -74,16 +72,17 @@ var getAirportOptions = function (airportCodeSearch) {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data);
                     displayAirportInfo(data);
                 });
             };
         })
+        // if bad request
         .catch(function () {
             M.toast({ html: 'ERROR: Please update your search information' })
         })
 };
 
+// displays airport code options to page
 function displayAirportInfo(data) {
     $("#airport-code-section").removeClass("hide");
     // override previous search
@@ -123,18 +122,16 @@ function displayAirportInfo(data) {
     };
 };
 
-// get User Input when search is submitted
-
+// get User Input when trip search is submitted
 $("#submit-btn").on("click", function (event) {
     event.preventDefault();
-
     // save user inputs to variables
     startingLocation = $(".from-city").val().trim()
     endingLocation = $(".to-city").val().trim()
     outboundDate = $("#outbound-date").val().trim()
     inboundDate = $("#inbound-date").val().trim()
 
-    // check for empty inputs
+    // error handling
     if (startingLocation === "" || endingLocation === "") {
         M.toast({ html: 'Please select your locations.' })
     }
@@ -174,7 +171,6 @@ var getTravelAdvice = function () {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data);
                     addCountryData(data);
                 });
             } else {
@@ -245,7 +241,6 @@ var getTravelQuotes = function () {
         .then(function (response) {
             if (response.ok) {
                 response.json().then(function (data) {
-                    console.log(data);
                     getTravelOptions(data);
                 });
             } else {
@@ -261,9 +256,7 @@ var getTravelQuotes = function () {
 // load flight options to page
 function getTravelOptions(data) {
     var googleFlightUrl = ("https://www.google.com/flights?hl=en#flt=" + startingLocation + "." + endingLocation + "." + outboundDate + "*" + endingLocation + "." + startingLocation + "." + inboundDate + ";c:USD;e:1;sd:1;t:f");
-    console.log(googleFlightUrl);
 
-    
     // override previous search
     $("#flight-options").html("");
     $("#flight-cities").text((startingLocation.toUpperCase()) + " - " + (endingLocation.toUpperCase()));
@@ -331,35 +324,54 @@ function getTravelOptions(data) {
 // add trip to saved trips sidebar on click
 $("#add-trip-btn").on("click", function () {
 
-    var savedTripLi = $("<li>")
-    var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
-    var fixedInboundDate = new Date(inboundDate).toISOString().split('T')[0];
+    // if savedTripsArray is empty, add saved Trip to list
+    if (!(savedTripsArray.length)){
+        createSavedTripLink();
+    } else {
+        var dup = isDuplicateTrip();
+        if (dup === 0) {
+            createSavedTripLink();
+        } else {
+            M.toast({html: 'ERROR: This trip has already been saved.'})
+        }
+    }
+})
 
-    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " " + endingLocation + " " + fixedOutboundDate + " " + fixedInboundDate);
+// checks if saved trip is a dup
+var isDuplicateTrip = function () {
+    var dup = 0;
+    for (var i=0; i < savedTripsArray.length; i++) {
+        if ((savedTripsArray[i].outboundCity === startingLocation) &&
+        (savedTripsArray[i].inboundCity === endingLocation) &&
+        (savedTripsArray[i].outboundDate === outboundDate) &&
+        (savedTripsArray[i].inboundDate === inboundDate)) {
+            dup++
+        }
+    }
+    return dup;
+}
 
-    // save to saved trip info to an object
+// creates html for saved trip and saves to local storage
+var createSavedTripLink = function () {
     var savedTripObj = {
         outboundCity: startingLocation,
         inboundCity: endingLocation,
-        outboundDate: fixedOutboundDate,
-        inboundDate: fixedInboundDate
+        outboundDate: outboundDate,
+        inboundDate: inboundDate
     }
 
-    console.log(savedTripsArray)
-    if(!savedTripsArray.includes(savedTripObj)){
-        // push that to savedTripsArray 
-        savedTripsArray.push(savedTripObj);
+    var savedTripLi = $("<li>")
+    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " " + endingLocation + " " + outboundDate + " " + inboundDate);
 
-        // save to local storage 
-        localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
+    // push that to savedTripsArray 
+    savedTripsArray.push(savedTripObj);
+    // save to local storage 
+    localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
 
-        // append saved trip to page
-        savedTripLi.append(savedTripLink);
-        $(".saved-trips-list").append(savedTripLi);
-        console.log(savedTripsArray)
-    }
-
-})
+    // append saved trip to page
+    savedTripLi.append(savedTripLink);
+    $(".saved-trips-list").append(savedTripLi);
+}
 
 // will load previously saved Trips to page
 var loadSavedTrips = function () {
@@ -372,7 +384,6 @@ var loadSavedTrips = function () {
     } else {
         // push to saved trips array 
         savedTripsArray = savedTrips;
-        console.log(savedTripsArray);
         // create list element for each obj within saved Trips array
         for (var i = 0; i < savedTrips.length; i++) {
             var savedTripLi = $("<li>")
@@ -387,27 +398,28 @@ var loadSavedTrips = function () {
 
 // on button click, saved trips will be cleared
 $("#clear-trips-btn").on('click', function () {
+    // clear local storage
     localStorage.removeItem("savedTrips");
+    // clear savedTripsArray
+    savedTripsArray = [];
     loadSavedTrips();
 })
 
 $(".saved-trips-list").on('click', function (event) {
     event.preventDefault();
-    var trip = event.target.text;
-    var splitTripInfo = trip.split(" ");
-    startingLocation = splitTripInfo[0];
-    endingLocation = splitTripInfo[1];
-    outboundDate = splitTripInfo[2];
-    inboundDate = splitTripInfo[3];
+    if (!event.target.text) {
+        return;
+    } else {
+        var trip = event.target.text;
+        var splitTripInfo = trip.split(" ");
+        startingLocation = splitTripInfo[0];
+        endingLocation = splitTripInfo[1];
+        outboundDate = splitTripInfo[2];
+        inboundDate = splitTripInfo[3];
 
-    getTravelAdvice();
-    getTravelQuotes();
-
+        getTravelAdvice();
+        getTravelQuotes();
+    }
 })
 
-
-
-// getTravelAdvice();
-// getTravelQuotes();
-// getAirportCode();
 loadSavedTrips();
