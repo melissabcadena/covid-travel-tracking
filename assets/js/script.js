@@ -360,7 +360,8 @@ var loadSavedTrips = function () {
     } else {
         // push to saved trips array 
         savedTripsArray = savedTrips;
-        console.log(savedTripsArray);
+        console.log("application", savedTripsArray);
+        console.log("localStorage", savedTrips)
         // create list element for each obj within saved Trips array
         for (var i = 0; i < savedTrips.length; i++) {
             var savedTripLi = $("<li>")
@@ -371,12 +372,19 @@ var loadSavedTrips = function () {
             $(".saved-trips-list").append(savedTripLi);
         }
     }
+    console.log("application", savedTripsArray);
+    console.log("localStorage", savedTrips)
 }
 
 // on button click, saved trips will be cleared
 $("#clear-trips-btn").on('click', function () {
+    // clear local storage
     localStorage.removeItem("savedTrips");
+    // clear savedTripsArray
+    savedTripsArray = [];
     loadSavedTrips();
+    console.log("application", savedTripsArray);
+    console.log("localStorage", savedTrips)
 })
 
 $(".saved-trips-list").on('click', function (event) {
@@ -387,6 +395,9 @@ $(".saved-trips-list").on('click', function (event) {
     endingLocation = splitTripInfo[1];
     outboundDate = splitTripInfo[2];
     inboundDate = splitTripInfo[3];
+
+    console.log("application", savedTripsArray);
+    console.log("localStorage", savedTrips)
 
     getTravelAdvice();
     getTravelQuotes();
