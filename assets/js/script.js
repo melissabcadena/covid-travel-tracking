@@ -18,7 +18,6 @@ function addMonths(date, months) {
   }
 
 var sixMoAhead = addMonths(currentDate, 6);
-console.log(currentDate, sixMoAhead);
 
 $(document).ready(function () {
     $(".parallax").parallax();
@@ -59,6 +58,7 @@ $("#airport-search-btn").on("click", function (event) {
     }
 });
 
+// fetch call for airport codes
 var getAirportOptions = function (airportCodeSearch) {
 
     var myHeaders = new Headers();
@@ -84,6 +84,7 @@ var getAirportOptions = function (airportCodeSearch) {
         })
 };
 
+// displays airport code options to page
 function displayAirportInfo(data) {
     $("#airport-code-section").removeClass("hide");
     // override previous search
@@ -318,36 +319,57 @@ function getTravelOptions(data) {
 
 }
 
-// add trip to saved trips sidebar on click
-$("#add-trip-btn").on("click", function () {
-
-    var savedTripLi = $("<li>")
-    var fixedOutboundDate = new Date(outboundDate).toISOString().split('T')[0];
-    var fixedInboundDate = new Date(inboundDate).toISOString().split('T')[0];
-
-    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " " + endingLocation + " " + fixedOutboundDate + " " + fixedInboundDate);
-
-    // save to saved trip info to an object
+var createSavedTripLink = function () {
     var savedTripObj = {
         outboundCity: startingLocation,
         inboundCity: endingLocation,
-        outboundDate: fixedOutboundDate,
-        inboundDate: fixedInboundDate
+        outboundDate: outboundDate,
+        inboundDate: inboundDate
     }
+
+    var savedTripLi = $("<li>")
+    var savedTripLink = $("<a>").attr("href", "#").text(startingLocation + " " + endingLocation + " " + outboundDate + " " + inboundDate);
 
     // push that to savedTripsArray 
     savedTripsArray.push(savedTripObj);
-
     // save to local storage 
     localStorage.setItem("savedTrips", JSON.stringify(savedTripsArray));
 
     // append saved trip to page
     savedTripLi.append(savedTripLink);
     $(".saved-trips-list").append(savedTripLi);
+}
 
+// add trip to saved trips sidebar on click
+$("#add-trip-btn").on("click", function () {
 
-
+    // if savedTripsArray is empty, add saved Trip to list
+    if (!(savedTripsArray.length)){
+        createSavedTripLink();
+    } else {
+        var dup = isDuplicateTrip();
+        console.log(dup);
+        if (dup === 0) {
+            createSavedTripLink();
+        } else {
+            M.toast({html: 'ERROR: This trip has already been saved.'})
+        }
+    }
 })
+
+// checks if saved trip is a dup
+var isDuplicateTrip = function () {
+    var dup = 0;
+    for (var i=0; i < savedTripsArray.length; i++) {
+        if ((savedTripsArray[i].outboundCity === startingLocation) &&
+        (savedTripsArray[i].inboundCity === endingLocation) &&
+        (savedTripsArray[i].outboundDate === outboundDate) &&
+        (savedTripsArray[i].inboundDate === inboundDate)) {
+            dup++
+        }
+    }
+    return dup;
+}
 
 // will load previously saved Trips to page
 var loadSavedTrips = function () {
@@ -360,8 +382,6 @@ var loadSavedTrips = function () {
     } else {
         // push to saved trips array 
         savedTripsArray = savedTrips;
-        console.log("application", savedTripsArray);
-        console.log("localStorage", savedTrips)
         // create list element for each obj within saved Trips array
         for (var i = 0; i < savedTrips.length; i++) {
             var savedTripLi = $("<li>")
@@ -372,8 +392,6 @@ var loadSavedTrips = function () {
             $(".saved-trips-list").append(savedTripLi);
         }
     }
-    console.log("application", savedTripsArray);
-    console.log("localStorage", savedTrips)
 }
 
 // on button click, saved trips will be cleared
@@ -383,8 +401,6 @@ $("#clear-trips-btn").on('click', function () {
     // clear savedTripsArray
     savedTripsArray = [];
     loadSavedTrips();
-    console.log("application", savedTripsArray);
-    console.log("localStorage", savedTrips)
 })
 
 $(".saved-trips-list").on('click', function (event) {
@@ -396,12 +412,8 @@ $(".saved-trips-list").on('click', function (event) {
     outboundDate = splitTripInfo[2];
     inboundDate = splitTripInfo[3];
 
-    console.log("application", savedTripsArray);
-    console.log("localStorage", savedTrips)
-
     getTravelAdvice();
     getTravelQuotes();
-
 })
 
 
