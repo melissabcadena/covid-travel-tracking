@@ -21,7 +21,18 @@ The user can easily save their searched trip to the page. Using Local Storage, t
 	- Trip Advisor: https://rapidapi.com/apidojo/api/tripadvisor1
 	- Sky Scanner: https://rapidapi.com/user/skyscanner
 
-## Screenshot of Application
+## Screenshots of Application
+Full Screen
+<img src= "./assets/images/all-data.png">
+
+Intro Modal
+<img src= "./assets/images/intro-modal.png">
+
+Airport Code Search
+<img src= "./assets/images/airport-code-search.png">
+
+Collapsible Flight Options
+<img src= "./assets/images/flight-options.png">
 
 ## Deployed Website
 https://d-belleza.github.io/covid-traveling/
