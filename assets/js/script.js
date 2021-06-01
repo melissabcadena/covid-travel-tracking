@@ -189,10 +189,10 @@ function addCountryData(data) {
     var cityTitle = $("<h2>").addClass("card-title").text(data.Trips[0].covid19_stats.country);
 
     // get note URL
-    // var urlRegex = /(https?:\/\/[^ ]*)/;
-    // var input = data.Trips[0].Advice.Notes[0].Note;
-    // var url = input.match(urlRegex)[1];
-    // var note = input.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+    var urlRegex = /(https?:\/\/[^ ]*)/;
+    var input = data.Trips[0].Advice.Notes[0].Note;
+    var url = input.match(urlRegex)[1];
+    var note = input.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
 
     // Add commas in numbers
     var newCases = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 10 }).format(data.Trips[0].covid19_stats.new_cases);
@@ -207,7 +207,7 @@ function addCountryData(data) {
     var totalDeathsEl = $("<p>").text("Total Deaths: " + totalDeaths);
     var restrictionLevelEl = $("<p>").text("Restriction " + data.Trips[0].Advice.News.Recommendation);
     var notesContainerEl = $("<p>");
-    var restrictionNotesEl = $("<span>").text("Notes: ");
+    var restrictionNotesEl = $("<span>").text("Notes: " + note);
     var restrictionURLEl = $("<a />").text("More information >").attr("href", url).attr("target", "_blank");
     var lastUpdatedEl = $("<p>").text("Date of Information: " + new Date(data.Trips[0].covid19_stats.date).toISOString().split('T')[0]);
     var levelAlert = data.Trips[0].Advice.Level;
