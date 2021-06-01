@@ -159,7 +159,7 @@ $("#submit-btn").on("click", function (event) {
 var getTravelAdvice = function () {
 
     var myHeaders = new Headers();
-    myHeaders.append("X-Access-Token", "a9027f3b-807c-43e4-b30c-2e9f97ed1467");
+    myHeaders.append("X-Access-Token", "7f4f1bfa-b3c7-4f9e-83bb-dcc1ef8cf08b");
 
     var requestOptions = {
         method: 'GET',
